@@ -1,0 +1,63 @@
+<div class="candidate-detail">
+  <div class="detail-header">
+    <div class="candidate-info">
+      <img [src]="candidateSignal().image" [alt]="candidateSignal().name" class="candidate-avatar">
+      <div class="candidate-basic">
+        <h2>{{ displayName() }}</h2>
+        <p class="candidate-email">{{ candidateSignal().email }}</p>
+      </div>
+    </div>
+    <button mat-icon-button (click)="onClose()" class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="detail-content">
+    <div class="detail-grid">
+      <div class="detail-item">
+        <label>Age</label>
+        <p>{{ candidateSignal().age }}</p>
+      </div>
+      <div class="detail-item">
+        <label>Location</label>
+        <p>{{ candidateSignal().city }}</p>
+      </div>
+    </div>
+
+    <div class="detail-item">
+      <label>Status</label>
+      <mat-chip 
+        [color]="getStatusColor(candidateSignal().status)" 
+        selected>
+        <mat-icon matChipAvatar>{{ getStatusIcon(candidateSignal().status) }}</mat-icon>
+        {{ candidateSignal().status }}
+      </mat-chip>
+    </div>
+
+    <div class="detail-item">
+      <label>Summary</label>
+      <p>{{ candidateSignal().summary }}</p>
+    </div>
+
+    <div class="detail-item">
+      <label>Hobbies</label>
+      <p>{{ candidateSignal().hobbies }}</p>
+    </div>
+
+    <div class="detail-item">
+      <label>Application Date</label>
+      <p>{{ candidateSignal().applicationDate }} ({{ daysSinceApplication() }} days ago)</p>
+    </div>
+
+    <div class="detail-actions">
+      <button mat-stroked-button>
+        <mat-icon>chevron_left</mat-icon>
+        Previous
+      </button>
+      <button mat-stroked-button>
+        Next
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

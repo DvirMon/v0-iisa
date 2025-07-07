@@ -1,0 +1,418 @@
+<!-- Header -->
+<mat-toolbar color="primary" class="dashboard-header">
+  <div class="header-content">
+    <div class="header-left">
+      <mat-icon class="header-icon">rocket_launch</mat-icon>
+      <div class="header-text">
+        <h1>IISA Dashboard</h1>
+        <span class="subtitle">Israeli Imaginary Space Agency</span>
+      </div>
+    </div>
+    <div class="header-right">
+      <mat-chip-set>
+        <mat-chip color="primary" selected>
+          <mat-icon matChipAvatar>public</mat-icon>
+          Mission Control
+        </mat-chip>
+      </mat-chip-set>
+    </div>
+  </div>
+</mat-toolbar>
+
+<div class="dashboard-container">
+  <!-- Overview Cards -->
+  <div class="overview-cards">
+    <mat-card class="stat-card blue-gradient">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>people</mat-icon>
+          Total Candidates
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-number">{{ dashboardService.totalCandidates() }}</div>
+        <div class="stat-subtitle">+12% from last week</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card green-gradient">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>visibility</mat-icon>
+          Total Visits
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-number">{{ totalVisits() | number }}</div>
+        <div class="stat-subtitle">Last 7 days</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card purple-gradient">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>how_to_reg</mat-icon>
+          Registrations
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-number">{{ totalRegistrations() }}</div>
+        <div class="stat-subtitle">Conversion: {{ conversionRate() }}%</div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card orange-gradient">
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>star</mat-icon>
+          Approved
+        </mat-card-title>
+        <mat-card-subtitle>Ready for space!</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="stat-number">{{ dashboardService.approvedCandidates() }}</div>
+        <div class="stat-subtitle">Approved candidates</div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Main Content Tabs -->
+  <mat-tab-group class="main-tabs" animationDuration="300ms">
+    <!-- Overview Tab -->
+    <mat-tab label="Overview">
+      <div class="tab-content">
+        <div class="charts-grid">
+          <!-- Age Distribution Chart -->
+          <mat-card class="chart-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>calendar_today</mat-icon>
+                Age Distribution
+              </mat-card-title>
+              <mat-card-subtitle>Breakdown of candidate ages</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <ngx-charts-bar-vertical
+                [results]="ageData()"
+                [scheme]="chartColorScheme"
+                [xAxis]="true"
+                [yAxis]="true"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                xAxisLabel="Age Range"
+                yAxisLabel="Count"
+                [animations]="true"
+                (select)="onChartSelect($event)"
+                (activate)="onChartActivate($event)"
+                (deactivate)="onChartDeactivate($event)">
+              </ngx-charts-bar-vertical>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Application Status Chart -->
+          <mat-card class="chart-card">
+            <mat-card-header>
+              <mat-card-title>Application Status</mat-card-title>
+              <mat-card-subtitle>Current status of all applications</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <ngx-charts-pie-chart
+                [results]="statusData()"
+                [labels]="true"
+                [doughnut]="false"
+                [animations]="true"
+                (select)="onChartSelect($event)"
+                (activate)="onChartActivate($event)"
+                (deactivate)="onChartDeactivate($event)">
+              </ngx-charts-pie-chart>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <!-- Location Map -->
+        <mat-card class="location-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>place</mat-icon>
+              Candidate Locations
+            </mat-card-title>
+            <mat-card-subtitle>Geographic distribution across Israel</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="map-placeholder">
+              <div class="map-content">
+                <mat-icon class="map-icon">place</mat-icon>
+                <h3>Interactive Map</h3>
+                <p>Candidate locations across Israel</p>
+              </div>
+              <!-- Location markers -->
+              <div class="location-marker marker-1"></div>
+              <div class="location-marker marker-2"></div>
+              <div class="location-marker marker-3"></div>
+            </div>
+            <div class="location-stats">
+              <div class="location-stat" *ngFor="let location of locationData()">
+                <div class="location-count">{{ location.count }}</div>
+                <div class="location-name">{{ location.city }}</div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- Candidates Tab -->
+    <mat-tab label="Candidates">
+      <div class="tab-content">
+        <mat-card class="candidates-card">
+          <mat-card-header>
+            <div class="candidates-header">
+              <div class="header-info">
+                <mat-card-title>Candidate Management</mat-card-title>
+                <mat-card-subtitle>Search, filter, and manage spaceflight candidates</mat-card-subtitle>
+              </div>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="filters-section">
+              <div class="filters-row">
+                <mat-form-field appearance="outline" class="search-field">
+                  <mat-label>Search candidates</mat-label>
+                  <input 
+                    matInput 
+                    [value]="searchTerm()"
+                    (input)="onSearchChange($event.target?.value || '')"
+                    placeholder="Search by name, email, or city...">
+                  <mat-icon matSuffix>search</mat-icon>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Filter by status</mat-label>
+                  <mat-select 
+                    [value]="statusFilter()"
+                    (selectionChange)="onStatusFilterChange($event.value)">
+                    <mat-option value="all">All Status</mat-option>
+                    <mat-option value="approved">✅ Approved</mat-option>
+                    <mat-option value="under-review">🔍 Under Review</mat-option>
+                    <mat-option value="pending">⏳ Pending</mat-option>
+                    <mat-option value="rejected">❌ Rejected</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                  <mat-label>Filter by city</mat-label>
+                  <mat-select 
+                    [value]="cityFilter()"
+                    (selectionChange)="onCityFilterChange($event.value)">
+                    <mat-option value="all">All Cities</mat-option>
+                    <mat-option value="tel-aviv">Tel Aviv</mat-option>
+                    <mat-option value="jerusalem">Jerusalem</mat-option>
+                    <mat-option value="haifa">Haifa</mat-option>
+                    <mat-option value="beer-sheva">Beer Sheva</mat-option>
+                    <mat-option value="eilat">Eilat</mat-option>
+                    <mat-option value="netanya">Netanya</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="filters-actions">
+                <button mat-stroked-button (click)="clearFilters()">
+                  Clear Filters
+                </button>
+                <button mat-icon-button (click)="toggleViewMode()" [matTooltip]="viewMode() === 'grid' ? 'Switch to Table View' : 'Switch to Grid View'">
+                  <mat-icon>{{ viewMode() === 'grid' ? 'view_list' : 'view_module' }}</mat-icon>
+                </button>
+                <mat-chip color="accent" selected>
+                  {{ filteredCandidates().length }} of {{ dashboardService.totalCandidates() }} candidates
+                </mat-chip>
+              </div>
+            </div>
+          </mat-card-header>
+
+          <mat-card-content>
+            <!-- Grid View -->
+            <div *ngIf="viewMode() === 'grid'" class="candidates-grid">
+              <mat-card 
+                *ngFor="let candidate of filteredCandidates()" 
+                class="candidate-card"
+                (click)="openCandidateDetail(candidate)">
+                <mat-card-content>
+                  <div class="candidate-info">
+                    <img [src]="candidate.image" [alt]="candidate.name" class="candidate-avatar">
+                    <div class="candidate-details">
+                      <h3 class="candidate-name">{{ candidate.name }}</h3>
+                      <p class="candidate-location">
+                        <mat-icon class="location-icon">place</mat-icon>
+                        {{ candidate.city }} • Age {{ candidate.age }}
+                      </p>
+                      <p class="candidate-summary">{{ candidate.summary }}</p>
+                      <div class="candidate-footer">
+                        <mat-chip 
+                          [color]="getStatusColor(candidate.status)" 
+                          selected>
+                          <mat-icon matChipAvatar>{{ getStatusIcon(candidate.status) }}</mat-icon>
+                          {{ candidate.status }}
+                        </mat-chip>
+                        <span class="application-date">{{ candidate.applicationDate }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+            </div>
+
+            <!-- Table View -->
+            <div *ngIf="viewMode() === 'table'" class="candidates-table">
+              <table mat-table [dataSource]="filteredCandidates()" class="mat-elevation-2">
+                <!-- Candidate Column -->
+                <ng-container matColumnDef="candidate">
+                  <th mat-header-cell *matHeaderCellDef>Candidate</th>
+                  <td mat-cell *matCellDef="let candidate">
+                    <div class="table-candidate">
+                      <img [src]="candidate.image" [alt]="candidate.name" class="table-avatar">
+                      <div class="table-candidate-info">
+                        <div class="table-candidate-name">{{ candidate.name }}</div>
+                        <div class="table-candidate-summary">{{ candidate.summary }}</div>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Contact Column -->
+                <ng-container matColumnDef="contact">
+                  <th mat-header-cell *matHeaderCellDef>Contact</th>
+                  <td mat-cell *matCellDef="let candidate">
+                    <div class="table-contact">
+                      <div class="contact-email">{{ candidate.email }}</div>
+                      <div class="contact-available">Contact available</div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Location Column -->
+                <ng-container matColumnDef="location">
+                  <th mat-header-cell *matHeaderCellDef>Location & Age</th>
+                  <td mat-cell *matCellDef="let candidate">
+                    <div class="table-location">
+                      <div class="location-city">
+                        <mat-icon class="location-icon">place</mat-icon>
+                        {{ candidate.city }}
+                      </div>
+                      <div class="location-age">Age {{ candidate.age }}</div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Status Column -->
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef>Status</th>
+                  <td mat-cell *matCellDef="let candidate">
+                    <mat-chip 
+                      [color]="getStatusColor(candidate.status)" 
+                      selected>
+                      <mat-icon matChipAvatar>{{ getStatusIcon(candidate.status) }}</mat-icon>
+                      {{ candidate.status }}
+                    </mat-chip>
+                  </td>
+                </ng-container>
+
+                <!-- Applied Column -->
+                <ng-container matColumnDef="applied">
+                  <th mat-header-cell *matHeaderCellDef>Applied</th>
+                  <td mat-cell *matCellDef="let candidate">
+                    <div class="table-applied">
+                      <div class="applied-date">{{ candidate.applicationDate }}</div>
+                      <div class="applied-ago">{{ getDaysAgo(candidate.applicationDate) }} days ago</div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                  <th mat-header-cell *matHeaderCellDef>Actions</th>
+                  <td mat-cell *matCellDef="let candidate">
+                    <div class="table-actions">
+                      <button mat-stroked-button (click)="openCandidateDetail(candidate); $event.stopPropagation()">
+                        View
+                      </button>
+                      <button mat-button color="primary">
+                        Edit
+                      </button>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" 
+                    class="table-row" 
+                    (click)="openCandidateDetail(row)"></tr>
+              </table>
+            </div>
+
+            <!-- Empty State -->
+            <div *ngIf="filteredCandidates().length === 0" class="empty-state">
+              <mat-icon class="empty-icon">people_outline</mat-icon>
+              <h3>No candidates found</h3>
+              <p>Try adjusting your search or filter criteria</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- Analytics Tab -->
+    <mat-tab label="Analytics">
+      <div class="tab-content">
+        <div class="analytics-grid">
+          <!-- Visits vs Registrations Chart -->
+          <mat-card class="chart-card">
+            <mat-card-header>
+              <mat-card-title>
+                <mat-icon>trending_up</mat-icon>
+                Visits vs Registrations
+              </mat-card-title>
+              <mat-card-subtitle>Daily website traffic and conversion</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <ngx-charts-area-chart
+                [results]="[
+                  { name: 'Visits', series: visitsData().map(d => ({ name: d.date, value: d.visits })) },
+                  { name: 'Registrations', series: visitsData().map(d => ({ name: d.date, value: d.registrations })) }
+                ]"
+                [scheme]="chartColorScheme"
+                [xAxis]="true"
+                [yAxis]="true"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                xAxisLabel="Date"
+                yAxisLabel="Count"
+                [animations]="true">
+              </ngx-charts-area-chart>
+            </mat-card-content>
+          </mat-card>
+
+          <!-- Popular Hobbies Chart -->
+          <mat-card class="chart-card">
+            <mat-card-header>
+              <mat-card-title>Popular Hobbies</mat-card-title>
+              <mat-card-subtitle>Most common interests among candidates</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+              <ngx-charts-bar-horizontal
+                [results]="hobbiesData()"
+                [scheme]="chartColorScheme"
+                [xAxis]="true"
+                [yAxis]="true"
+                [showXAxisLabel]="true"
+                [showYAxisLabel]="true"
+                xAxisLabel="Count"
+                yAxisLabel="Hobbies"
+                [animations]="true">
+              </ngx-charts-bar-horizontal>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

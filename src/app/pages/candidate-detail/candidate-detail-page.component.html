@@ -1,0 +1,84 @@
+<div class="candidate-detail-container" *ngIf="candidateSignal() as candidate">
+  <div class="detail-header">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Candidate Details</h1>
+  </div>
+
+  <mat-card class="candidate-detail-card">
+    <mat-card-header>
+      <div class="candidate-header">
+        <img [src]="candidate.image" [alt]="candidate.name" class="candidate-avatar">
+        <div class="candidate-basic">
+          <h2>{{ candidate.name }}</h2>
+          <p class="candidate-email">{{ candidate.email }}</p>
+          <div class="candidate-location">
+            <mat-icon>place</mat-icon>
+            {{ candidate.city }} • Age {{ candidate.age }}
+          </div>
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="detail-grid">
+        <div class="detail-section">
+          <h3>Status</h3>
+          <mat-chip 
+            [color]="getStatusColor(candidate.status)" 
+            selected>
+            <mat-icon matChipAvatar>{{ getStatusIcon(candidate.status) }}</mat-icon>
+            {{ candidate.status }}
+          </mat-chip>
+        </div>
+
+        <div class="detail-section">
+          <h3>Application Date</h3>
+          <p>{{ candidate.applicationDate }}</p>
+          <small>{{ daysSinceApplication() }} days ago</small>
+        </div>
+
+        <div class="detail-section full-width">
+          <h3>Summary</h3>
+          <p>{{ candidate.summary }}</p>
+        </div>
+
+        <div class="detail-section full-width">
+          <h3>Hobbies & Interests</h3>
+          <p>{{ candidate.hobbies }}</p>
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <button mat-raised-button color="primary" (click)="updateCandidateStatus('Approved')">
+          <mat-icon>check_circle</mat-icon>
+          Approve
+        </button>
+        <button mat-raised-button color="accent" (click)="updateCandidateStatus('Under Review')">
+          <mat-icon>schedule</mat-icon>
+          Under Review
+        </button>
+        <button mat-raised-button color="warn" (click)="updateCandidateStatus('Rejected')">
+          <mat-icon>cancel</mat-icon>
+          Reject
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<div class="not-found" *ngIf="!candidateSignal()">
+  <mat-card>
+    <mat-card-content>
+      <div class="not-found-content">
+        <mat-icon class="not-found-icon">person_off</mat-icon>
+        <h2>Candidate Not Found</h2>
+        <p>The candidate you're looking for doesn't exist.</p>
+        <button mat-raised-button color="primary" (click)="goBack()">
+          Back to Candidates
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,188 @@
+.overview-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.overview-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+
+  .stat-card {
+    color: white;
+    
+    &.blue-gradient {
+      background: linear-gradient(135deg, #2196F3, #1976D2);
+    }
+    
+    &.green-gradient {
+      background: linear-gradient(135deg, #4CAF50, #388E3C);
+    }
+    
+    &.purple-gradient {
+      background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+    }
+    
+    &.orange-gradient {
+      background: linear-gradient(135deg, #FF9800, #F57C00);
+    }
+
+    mat-card-header {
+      mat-card-title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 500;
+      }
+    }
+
+    .stat-number {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 8px 0;
+    }
+
+    .stat-subtitle {
+      font-size: 12px;
+      opacity: 0.8;
+    }
+  }
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.chart-card {
+  mat-card-header {
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  }
+
+  mat-card-content {
+    height: 300px;
+  }
+}
+
+.location-card {
+  .map-placeholder {
+    height: 250px;
+    background: linear-gradient(135deg, #E3F2FD, #E8F5E8);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+
+    .map-content {
+      text-align: center;
+      z-index: 2;
+
+      .map-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        color: #2196F3;
+        margin-bottom: 16px;
+      }
+
+      h3 {
+        margin: 0 0 8px 0;
+        color: #424242;
+      }
+
+      p {
+        margin: 0;
+        color: #757575;
+      }
+    }
+
+    .location-marker {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+
+      &.marker-1 {
+        top: 25%;
+        left: 33%;
+        background-color: #f44336;
+      }
+
+      &.marker-2 {
+        top: 50%;
+        left: 50%;
+        background-color: #2196f3;
+      }
+
+      &.marker-3 {
+        top: 75%;
+        right: 33%;
+        background-color: #4caf50;
+      }
+    }
+  }
+
+  .location-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+
+    .location-stat {
+      text-align: center;
+
+      .location-count {
+        font-size: 24px;
+        font-weight: 600;
+        color: #424242;
+      }
+
+      .location-name {
+        font-size: 14px;
+        color: #757575;
+      }
+    }
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .overview-container {
+    padding: 16px;
+  }
+
+  .overview-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+}

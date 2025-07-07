@@ -1,0 +1,114 @@
+<div class="settings-container">
+  <div class="page-header">
+    <h1>Settings</h1>
+    <p>Configure your dashboard preferences and system settings</p>
+  </div>
+
+  <div class="settings-grid">
+    <!-- General Settings -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>settings</mat-icon>
+          General Settings
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <mat-slide-toggle>Enable notifications</mat-slide-toggle>
+        </div>
+        <div class="setting-item">
+          <mat-slide-toggle>Auto-refresh data</mat-slide-toggle>
+        </div>
+        <div class="setting-item">
+          <mat-form-field appearance="outline">
+            <mat-label>Theme</mat-label>
+            <mat-select value="light">
+              <mat-option value="light">Light</mat-option>
+              <mat-option value="dark">Dark</mat-option>
+              <mat-option value="auto">Auto</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- User Preferences -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>person</mat-icon>
+          User Preferences
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="setting-item">
+          <mat-form-field appearance="outline">
+            <mat-label>Default view</mat-label>
+            <mat-select value="grid">
+              <mat-option value="grid">Grid View</mat-option>
+              <mat-option value="table">Table View</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="setting-item">
+          <mat-form-field appearance="outline">
+            <mat-label>Items per page</mat-label>
+            <mat-select value="10">
+              <mat-option value="10">10</mat-option>
+              <mat-option value="25">25</mat-option>
+              <mat-option value="50">50</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- System Information -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>info</mat-icon>
+          System Information
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="info-item">
+          <strong>Version:</strong> 1.0.0
+        </div>
+        <div class="info-item">
+          <strong>Last Updated:</strong> January 2024
+        </div>
+        <div class="info-item">
+          <strong>Framework:</strong> Angular 19
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Actions -->
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>build</mat-icon>
+          Actions
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="action-buttons">
+          <button mat-raised-button color="primary">
+            <mat-icon>save</mat-icon>
+            Save Settings
+          </button>
+          <button mat-stroked-button>
+            <mat-icon>refresh</mat-icon>
+            Reset to Default
+          </button>
+          <button mat-stroked-button color="warn">
+            <mat-icon>delete</mat-icon>
+            Clear Cache
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
