@@ -1,0 +1,35 @@
+<div class="candidates-grid" [class.loading]="loading()">
+  <!-- Loading State -->
+  @if (loading()) {
+  <div class="grid-loading">
+    @for (item of [1,2,3,4,5,6]; track item) {
+    <div class="candidate-skeleton">
+      <div class="skeleton-avatar"></div>
+      <div class="skeleton-content">
+        <div class="skeleton-name"></div>
+        <div class="skeleton-location"></div>
+        <div class="skeleton-summary"></div>
+        <div class="skeleton-footer">
+          <div class="skeleton-status"></div>
+          <div class="skeleton-date"></div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  }
+
+  <div class="grid-container">
+    @for (candidate of candidates(); track trackByCandidate($index, candidate))
+    {
+    <app-candidate-card
+      [candidate]="candidate"
+      [loading]="cardLoading()"
+      [showActions]="showActions()"
+      (cardClick)="onCandidateClick($event)"
+      (actionClick)="onActionClick($event)"
+      [@slideIn]="'in'">
+    </app-candidate-card>
+    }
+  </div>
+</div>
