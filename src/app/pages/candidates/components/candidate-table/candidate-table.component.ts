@@ -19,6 +19,7 @@ import {
   animate,
 } from "@angular/animations";
 import type { Candidate } from "../../../../models/candidate.model";
+import type { ViewMode } from "../../candidates.component";
 
 @Component({
   selector: "app-candidate-table",
@@ -48,6 +49,7 @@ export class CandidateTable {
   loading = input(false);
   showExpandedDetails = input(true);
   stickyHeader = input(true);
+  viewMode = input<ViewMode>("table");
   candidateView = output<Candidate>();
   candidateEdit = output<Candidate>();
   rowClick = output<Candidate>();

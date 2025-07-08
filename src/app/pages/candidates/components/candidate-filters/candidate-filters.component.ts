@@ -68,7 +68,7 @@ export interface ActiveFilter {
 export class CandidateFilters {
   // Signal-based inputs
   filters = input.required<FilterState>();
-  viewMode = input.required<"grid" | "table">();
+  viewMode = input.required<"list" | "table">();
   resultCount = input.required<number>();
   totalCount = input.required<number>();
   loading = input(false);
@@ -82,7 +82,7 @@ export class CandidateFilters {
   dateFilterChange = output<string>();
   sortChange = output<string>();
   clearFilters = output<void>();
-  toggleView = output<"grid" | "table">();
+  toggleView = output<"list" | "table">();
   exportFiltered = output<void>();
   removeFilter = output<keyof FilterState>();
 
@@ -177,7 +177,7 @@ export class CandidateFilters {
     this.clearFilters.emit();
   }
 
-  onToggleView(mode: "grid" | "table"): void {
+  onToggleView(mode: "list" | "table"): void {
     this.toggleView.emit(mode);
   }
 
