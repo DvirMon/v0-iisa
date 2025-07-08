@@ -6,12 +6,12 @@
     (cardHover)="onStatCardHover($event)">
   </app-stats-grid>
 
-  <!-- <div class="charts-grid">
-    <app-chart-card 
-      title="Age Distribution" 
+  <div class="charts-grid">
+    <app-chart-card
+      title="Age Distribution"
       subtitle="Breakdown of candidate ages"
       icon="calendar_today">
-      <app-age-distribution-chart 
+      <app-age-distribution-chart
         [data]="ageData()"
         (select)="onChartSelect($event)"
         (activate)="onChartActivate($event)"
@@ -19,17 +19,17 @@
       </app-age-distribution-chart>
     </app-chart-card>
 
-    <app-chart-card 
-      title="Application Status" 
+    <app-chart-card
+      title="Application Status"
       subtitle="Current status of all applications">
-      <app-status-chart 
+      <!-- <app-status-chart 
         [data]="statusData()"
         (select)="onChartSelect($event)"
         (activate)="onChartActivate($event)"
-        (deactivate)="onChartDeactivate($event)">
-      </app-status-chart>
+        (deactivate)="onChartDeactivate($event)"> -->
+      <!-- </app-status-chart> -->
     </app-chart-card>
   </div>
 
-  <app-location-card [locationData]="locationData()"></app-location-card> -->
+  <!-- <app-location-card [locationData]="locationData()"></app-location-card> -->
 </div>

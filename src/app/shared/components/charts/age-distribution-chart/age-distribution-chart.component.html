@@ -1,0 +1,14 @@
+<ngx-charts-bar-vertical
+  [results]="data()"
+  [scheme]="colorScheme()"
+  [xAxis]="true"
+  [yAxis]="true"
+  [showXAxisLabel]="true"
+  [showYAxisLabel]="true"
+  xAxisLabel="Age Range"
+  yAxisLabel="Count"
+  [animations]="true"
+  (select)="onSelect($event)"
+  (activate)="onActivate($event)"
+  (deactivate)="onDeactivate($event)">
+</ngx-charts-bar-vertical>

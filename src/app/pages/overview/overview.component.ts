@@ -8,6 +8,8 @@ import {
 } from "../../models/candidate.model";
 import { DashboardService } from "../../services/dashboard.service";
 import { StatsGridComponent } from "./components/stats-grid/stats-grid.component";
+import { AgeDistributionChartComponent } from "src/app/shared/components/charts/age-distribution-chart/age-distribution-chart.component";
+import { ChartCardComponent } from "./components/chart-card/chart-card.component";
 
 @Component({
   selector: "app-overview",
@@ -15,7 +17,8 @@ import { StatsGridComponent } from "./components/stats-grid/stats-grid.component
   imports: [
     CommonModule,
     StatsGridComponent,
-    // ChartCardComponent,
+    ChartCardComponent,
+    AgeDistributionChartComponent
     // LocationCardComponent,
     // AgeDistributionChartComponent,
     // StatusChartComponent,
