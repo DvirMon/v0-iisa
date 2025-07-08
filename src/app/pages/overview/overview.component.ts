@@ -2,7 +2,7 @@ import { Component, signal, computed, type OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
-import { Color, NgxChartsModule } from "@swimlane/ngx-charts";
+import { Color, NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
 import { DashboardService } from "../../services/dashboard.service";
 import {
   ChartData,
@@ -37,11 +37,12 @@ export class OverviewComponent implements OnInit {
     return visits > 0 ? Number(((registrations / visits) * 100).toFixed(1)) : 0;
   });
 
-  // Chart options
-  // chartColorScheme : Color = {
-    
-  //   domain: ["#2196F3", "#4CAF50", "#FF9800", "#F44336", "#9C27B0", "#00BCD4"],
-  // };
+  chartColorScheme: Color = {
+    name: "customScheme",
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ["#2196F3", "#4CAF50", "#FF9800", "#F44336", "#9C27B0", "#00BCD4"],
+  };
 
   constructor(public dashboardService: DashboardService) {}
 
