@@ -4,7 +4,7 @@ import {
   input,
   Input,
 } from "@angular/core";
-import { CommonModule } from "@angular/common";
+
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 
@@ -18,7 +18,7 @@ export interface StatCardData {
 
 @Component({
   selector: "app-stat-card",
-  imports: [CommonModule, MatCardModule, MatIconModule],
+  imports: [MatCardModule, MatIconModule],
   templateUrl: "./stat-card.component.html",
   styleUrls: ["./stat-card.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,

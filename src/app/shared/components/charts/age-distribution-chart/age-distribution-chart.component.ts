@@ -4,14 +4,14 @@ import {
   output,
   ChangeDetectionStrategy,
 } from "@angular/core";
-import { CommonModule } from "@angular/common";
+
 import { Color, NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
 import { ChartData } from "src/app/models/candidate.model";
 
 @Component({
   selector: "app-age-distribution-chart",
   standalone: true,
-  imports: [CommonModule, NgxChartsModule],
+  imports: [NgxChartsModule],
   templateUrl: "./age-distribution-chart.component.html",
   styleUrls: ["./age-distribution-chart.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
