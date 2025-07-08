@@ -1,0 +1,157 @@
+<div class="filters-section" [class.loading]="loading()">
+  <!-- Main Filters Row -->
+  <div class="filters-row">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search candidates</mat-label>
+      <input
+        matInput
+        [value]="filters().searchTerm"
+        (input)="onSearchChange($event)"
+        placeholder="Search by name, email, or city..."
+        [disabled]="loading()" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Filter by city</mat-label>
+      <mat-select
+        [value]="filters().cityFilter"
+        (selectionChange)="onCityFilterChange($event.value)"
+        [disabled]="loading()">
+        <mat-option value="all">All Cities</mat-option>
+        <mat-option value="tel-aviv">
+          <mat-icon class="option-icon">location_city</mat-icon>
+          Tel Aviv
+        </mat-option>
+        <mat-option value="jerusalem">
+          <mat-icon class="option-icon">location_city</mat-icon>
+          Jerusalem
+        </mat-option>
+        <mat-option value="haifa">
+          <mat-icon class="option-icon">location_city</mat-icon>
+          Haifa
+        </mat-option>
+        <mat-option value="beer-sheva">
+          <mat-icon class="option-icon">location_city</mat-icon>
+          Beer Sheva
+        </mat-option>
+        <mat-option value="eilat">
+          <mat-icon class="option-icon">location_city</mat-icon>
+          Eilat
+        </mat-option>
+        <mat-option value="netanya">
+          <mat-icon class="option-icon">location_city</mat-icon>
+          Netanya
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Advanced Filters Toggle -->
+    <button
+      mat-icon-button
+      (click)="toggleAdvancedFilters()"
+      [matTooltip]="
+        showAdvancedFilters()
+          ? 'Hide advanced filters'
+          : 'Show advanced filters'
+      "
+      [class.active]="showAdvancedFilters()"
+      [disabled]="loading()">
+      <mat-icon>{{ showAdvancedFilters() ? "expand_less" : "tune" }}</mat-icon>
+    </button>
+
+    <button
+      mat-stroked-button
+      (click)="onClearFilters()"
+      [disabled]="loading() || !hasActiveFilters()">
+      <mat-icon>clear_all</mat-icon>
+      Clear Filters
+    </button>
+  </div>
+  <!-- Advanced Filters Row -->
+  @if (showAdvancedFilters()) {
+  <div class="advanced-filters" [@slideDown]="'in'">
+    <mat-form-field appearance="outline">
+      <mat-label>Age Range</mat-label>
+      <mat-select
+        [value]="filters().ageFilter"
+        (selectionChange)="onAgeFilterChange($event.value)"
+        [disabled]="loading()">
+        <mat-option value="all">All Ages</mat-option>
+        <mat-option value="20-25">20-25 years</mat-option>
+        <mat-option value="26-30">26-30 years</mat-option>
+        <mat-option value="31-35">31-35 years</mat-option>
+        <mat-option value="36-40">36-40 years</mat-option>
+        <mat-option value="40+">40+ years</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Application Date</mat-label>
+      <mat-select
+        [value]="filters().dateFilter"
+        (selectionChange)="onDateFilterChange($event.value)"
+        [disabled]="loading()">
+        <mat-option value="all">All Dates</mat-option>
+        <mat-option value="last-week">Last Week</mat-option>
+        <mat-option value="last-month">Last Month</mat-option>
+        <mat-option value="last-3-months">Last 3 Months</mat-option>
+        <mat-option value="older">Older than 3 months</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Sort By</mat-label>
+      <mat-select
+        [value]="filters().sortBy"
+        (selectionChange)="onSortChange($event.value)"
+        [disabled]="loading()">
+        <mat-option value="name">Name (A-Z)</mat-option>
+        <mat-option value="name-desc">Name (Z-A)</mat-option>
+        <mat-option value="date">Application Date (Newest)</mat-option>
+        <mat-option value="date-desc">Application Date (Oldest)</mat-option>
+        <mat-option value="age">Age (Youngest)</mat-option>
+        <mat-option value="age-desc">Age (Oldest)</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  }
+
+  <!-- Actions Row -->
+  <div class="filters-actions">
+    <div class="actions-center">
+      <mat-chip color="accent" selected>
+        <mat-icon matChipAvatar>people</mat-icon>
+        {{ resultCount() }} of {{ totalCount() }} candidates
+      </mat-chip>
+    </div>
+
+    <div class="actions-right">
+      <mat-button-toggle-group
+        [value]="viewMode()"
+        (change)="onToggleView($event.value)"
+        [disabled]="loading()">
+        <mat-button-toggle value="grid" [matTooltip]="'Grid View'">
+          <mat-icon>view_module</mat-icon>
+        </mat-button-toggle>
+        <mat-button-toggle value="table" [matTooltip]="'Table View'">
+          <mat-icon>view_list</mat-icon>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+
+  <!-- Active Filters Display -->
+  @if (activeFilters().length > 0) {
+  <div class="active-filters" [@slideDown]="'in'">
+    <span class="active-filters-label">Active filters:</span>
+    <mat-chip-set>
+      @for (filter of activeFilters(); track trackByFilter($index, filter)) {
+      <mat-chip (removed)="onRemoveFilter(filter.key)" removable>
+        <mat-icon matChipAvatar>{{ filter.icon }}</mat-icon>
+        {{ filter.label }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      }
+    </mat-chip-set>
+  </div>
+  }
+</div>
