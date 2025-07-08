@@ -1,138 +1,36 @@
 <div class="overview-container">
   <!-- Overview Cards -->
-  <div class="overview-cards">
-    <mat-card class="stat-card blue-gradient">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>people</mat-icon>
-          Total Candidates
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="stat-number">{{ dashboardService.totalCandidates() }}</div>
-        <div class="stat-subtitle">+12% from last week</div>
-      </mat-card-content>
-    </mat-card>
+  <app-stats-grid
+    [statCards]="statCards()"
+    [loading]="statsLoading()"
+    (cardClick)="onStatCardClick($event)"
+    (cardHover)="onStatCardHover($event)">
+  </app-stats-grid>
 
-    <mat-card class="stat-card green-gradient">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>visibility</mat-icon>
-          Total Visits
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="stat-number">{{ totalVisits() | number }}</div>
-        <div class="stat-subtitle">Last 7 days</div>
-      </mat-card-content>
-    </mat-card>
+  <!-- <div class="charts-grid">
+    <app-chart-card 
+      title="Age Distribution" 
+      subtitle="Breakdown of candidate ages"
+      icon="calendar_today">
+      <app-age-distribution-chart 
+        [data]="ageData()"
+        (select)="onChartSelect($event)"
+        (activate)="onChartActivate($event)"
+        (deactivate)="onChartDeactivate($event)">
+      </app-age-distribution-chart>
+    </app-chart-card>
 
-    <mat-card class="stat-card purple-gradient">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>how_to_reg</mat-icon>
-          Registrations
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="stat-number">{{ totalRegistrations() }}</div>
-        <div class="stat-subtitle">Conversion: {{ conversionRate() }}%</div>
-      </mat-card-content>
-    </mat-card>
-
-    <mat-card class="stat-card orange-gradient">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>star</mat-icon>
-          Approved
-        </mat-card-title>
-        <mat-card-subtitle>Ready for space!</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="stat-number">{{ dashboardService.approvedCandidates() }}</div>
-        <div class="stat-subtitle">Approved candidates</div>
-      </mat-card-content>
-    </mat-card>
+    <app-chart-card 
+      title="Application Status" 
+      subtitle="Current status of all applications">
+      <app-status-chart 
+        [data]="statusData()"
+        (select)="onChartSelect($event)"
+        (activate)="onChartActivate($event)"
+        (deactivate)="onChartDeactivate($event)">
+      </app-status-chart>
+    </app-chart-card>
   </div>
 
-  <!-- Charts Grid -->
-  <div class="charts-grid">
-    <!-- Age Distribution Chart -->
-    <mat-card class="chart-card">
-      <mat-card-header>
-        <mat-card-title>
-          <mat-icon>calendar_today</mat-icon>
-          Age Distribution
-        </mat-card-title>
-        <mat-card-subtitle>Breakdown of candidate ages</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <ngx-charts-bar-vertical
-          [results]="ageData()"
-          [scheme]="chartColorScheme"
-          [xAxis]="true"
-          [yAxis]="true"
-          [showXAxisLabel]="true"
-          [showYAxisLabel]="true"
-          xAxisLabel="Age Range"
-          yAxisLabel="Count"
-          [animations]="true"
-          (select)="onChartSelect($event)"
-          (activate)="onChartActivate($event)"
-          (deactivate)="onChartDeactivate($event)">
-        </ngx-charts-bar-vertical>
-      </mat-card-content>
-    </mat-card>
-
-    <!-- Application Status Chart -->
-    <mat-card class="chart-card">
-      <mat-card-header>
-        <mat-card-title>Application Status</mat-card-title>
-        <mat-card-subtitle>Current status of all applications</mat-card-subtitle>
-      </mat-card-header>
-      <mat-card-content>
-        <ngx-charts-pie-chart
-          [results]="statusData()"
-          [labels]="true"
-          [doughnut]="false"
-          [animations]="true"
-          (select)="onChartSelect($event)"
-          (activate)="onChartActivate($event)"
-          (deactivate)="onChartDeactivate($event)">
-        </ngx-charts-pie-chart>
-      </mat-card-content>
-    </mat-card>
-  </div>
-
-  <!-- Location Map -->
-  <mat-card class="location-card">
-    <mat-card-header>
-      <mat-card-title>
-        <mat-icon>place</mat-icon>
-        Candidate Locations
-      </mat-card-title>
-      <mat-card-subtitle>Geographic distribution across Israel</mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="map-placeholder">
-        <div class="map-content">
-          <mat-icon class="map-icon">place</mat-icon>
-          <h3>Interactive Map</h3>
-          <p>Candidate locations across Israel</p>
-        </div>
-        <!-- Location markers -->
-        <div class="location-marker marker-1"></div>
-        <div class="location-marker marker-2"></div>
-        <div class="location-marker marker-3"></div>
-      </div>
-      <div class="location-stats">
-        @for (location of locationData(); track location) {
-          <div class="location-stat">
-            <div class="location-count">{{ location.count }}</div>
-            <div class="location-name">{{ location.city }}</div>
-          </div>
-        }
-      </div>
-    </mat-card-content>
-  </mat-card>
+  <app-location-card [locationData]="locationData()"></app-location-card> -->
 </div>

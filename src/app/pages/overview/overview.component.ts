@@ -1,30 +1,37 @@
-import { Component, signal, computed, type OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { MatCardModule } from "@angular/material/card";
-import { MatIconModule } from "@angular/material/icon";
-import { Color, NgxChartsModule, ScaleType } from "@swimlane/ngx-charts";
-import { DashboardService } from "../../services/dashboard.service";
+import { Component, computed, signal, type OnInit } from "@angular/core";
+import { StatCardData } from "src/app/shared/components/cards/stat-card/stat-card.component";
 import {
   ChartData,
   LocationData,
   VisitData,
 } from "../../models/candidate.model";
+import { DashboardService } from "../../services/dashboard.service";
+import { StatsGridComponent } from "./components/stats-grid/stats-grid.component";
 
 @Component({
   selector: "app-overview",
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule, NgxChartsModule],
+  imports: [
+    CommonModule,
+    StatsGridComponent,
+    // ChartCardComponent,
+    // LocationCardComponent,
+    // AgeDistributionChartComponent,
+    // StatusChartComponent,
+  ],
   templateUrl: "./overview.component.html",
   styleUrls: ["./overview.component.scss"],
 })
 export class OverviewComponent implements OnInit {
-  dashboardService = inject(DashboardService);
-
   // Chart data signals
   ageData = signal<ChartData[]>([]);
   statusData = signal<ChartData[]>([]);
   locationData = signal<LocationData[]>([]);
   visitsData = signal<VisitData[]>([]);
+
+  // Add after other signals
+  statsLoading = signal(false);
 
   // Computed statistics
   totalVisits = computed(() =>
@@ -39,12 +46,39 @@ export class OverviewComponent implements OnInit {
     return visits > 0 ? Number(((registrations / visits) * 100).toFixed(1)) : 0;
   });
 
-  chartColorScheme: Color = {
-    name: "customScheme",
-    selectable: true,
-    group: ScaleType.Ordinal,
-    domain: ["#2196F3", "#4CAF50", "#FF9800", "#F44336", "#9C27B0", "#00BCD4"],
-  };
+  // Computed stat cards
+  statCards = computed((): StatCardData[] => [
+    {
+      title: "Total Candidates",
+      icon: "people",
+      value: this.dashboardService.totalCandidates(),
+      subtitle: "+12% from last week",
+      gradient: "blue",
+    },
+    {
+      title: "Total Visits",
+      icon: "visibility",
+      value: this.totalVisits().toLocaleString(),
+      subtitle: "Last 7 days",
+      gradient: "green",
+    },
+    {
+      title: "Registrations",
+      icon: "how_to_reg",
+      value: this.totalRegistrations(),
+      subtitle: `Conversion: ${this.conversionRate()}%`,
+      gradient: "purple",
+    },
+    {
+      title: "Approved",
+      icon: "star",
+      value: this.dashboardService.approvedCandidates(),
+      subtitle: "Ready for space!",
+      gradient: "orange",
+    },
+  ]);
+
+  constructor(public dashboardService: DashboardService) {}
 
   ngOnInit(): void {
     this.loadChartData();
@@ -67,5 +101,15 @@ export class OverviewComponent implements OnInit {
 
   onChartDeactivate(event: any): void {
     console.log("Chart deactivate:", event);
+  }
+
+  onStatCardClick(card: StatCardData): void {
+    console.log("Stat card clicked:", card);
+    // Implement navigation or detailed view
+  }
+
+  onStatCardHover(card: StatCardData): void {
+    console.log("Stat card hovered:", card);
+    // Implement hover effects or tooltips
   }
 }
