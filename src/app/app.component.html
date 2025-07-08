@@ -13,24 +13,33 @@
 
 <!-- Main Content with Tabs -->
 <div class="main-content">
-  <mat-tab-group class="main-tabs" animationDuration="300ms">
+  <mat-tab-group animationDuration="300ms">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>people</mat-icon>
+        <span>Candidates</span>
+      </ng-template>
+      <div>
+        <app-candidates></app-candidates>
+      </div>
+    </mat-tab>
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon>dashboard</mat-icon>
         <span>Overview</span>
       </ng-template>
-      <div class="tab-content">
+      <div>
         <app-overview></app-overview>
       </div>
     </mat-tab>
 
     <mat-tab>
       <ng-template mat-tab-label>
-        <mat-icon>people</mat-icon>
-        <span>Candidates</span>
+        <mat-icon>analytics</mat-icon>
+        <span>Analytics</span>
       </ng-template>
-      <div class="tab-content">
-        <app-candidates></app-candidates>
+      <div>
+        <app-analytics></app-analytics>
       </div>
     </mat-tab>
   </mat-tab-group>

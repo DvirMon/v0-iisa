@@ -8,6 +8,7 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 // Import page components
 import { CandidatesComponent } from "./pages/candidates/candidates.component";
 import { OverviewComponent } from "./pages/overview/overview.component";
+import { AnalyticsComponent } from "./pages/analytics/analytics.component";
 
 @Component({
   selector: "app-root",
@@ -18,7 +19,8 @@ import { OverviewComponent } from "./pages/overview/overview.component";
     MatIconModule,
     MatChipsModule,
     OverviewComponent,
-    CandidatesComponent
+    CandidatesComponent,
+    AnalyticsComponent
 ],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
