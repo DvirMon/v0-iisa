@@ -31,6 +31,25 @@
     </app-candidate-filters>
 
     <mat-card-content>
+      @if (viewMode() === 'grid') {} @else {
+      <app-candidate-table
+        [candidates]="filteredCandidates()"
+        [loading]="loading()"
+        (candidateView)="viewCandidateDetail($event)"
+        (candidateEdit)="editCandidate($event)"
+        (clearFilters)="clearFilters()">
+      </app-candidate-table>
+
+      }
+
+      <!-- <app-candidate-grid 
+        *ngIf="viewMode() === 'grid'"
+        [candidates]="filteredCandidates()"
+        [loading]="loading()"
+        (candidateClick)="viewCandidateDetail($event)"
+        (clearFilters)="clearFilters()">
+      </app-candidate-grid> -->
+
       <!-- Grid View -->
       <!-- @if (viewMode() === 'grid') {
       <div class="candidates-grid">

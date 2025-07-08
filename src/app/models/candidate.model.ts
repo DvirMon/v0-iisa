@@ -7,7 +7,6 @@ export interface Candidate {
   image: string
   hobbies: string
   summary: string
-  status: "Approved" | "Under Review" | "Pending" | "Rejected"
   applicationDate: string
 }
 

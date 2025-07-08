@@ -1,26 +1,33 @@
-import { Component, signal, computed } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { Router } from "@angular/router";
-import { MatCardModule } from "@angular/material/card";
-import { MatIconModule } from "@angular/material/icon";
-import { MatDialogModule, MatDialog } from "@angular/material/dialog";
+import { Component, computed, signal } from "@angular/core";
 
-import { DashboardService } from "../../services/dashboard.service";
+import { MatCardModule } from "@angular/material/card";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
+import { MatIconModule } from "@angular/material/icon";
+import { Router } from "@angular/router";
+
 import { Candidate } from "../../models/candidate.model";
+import { DashboardService } from "../../services/dashboard.service";
+import {
+  matchesAgeFilter,
+  matchesDateFilter,
+  sortCandidates,
+} from "./candidates.utils";
 import { CandidateDetailDialog } from "./components/candidate-detail/candidate-detail-page.component";
-import { CandidateFilters, FilterState } from "./components/candidate-filters/candidate-filters.component";
+import {
+  CandidateFilters,
+  FilterState,
+} from "./components/candidate-filters/candidate-filters.component";
+import { CandidateTable } from "./components/candidate-table/candidate-table.component";
 
 @Component({
   selector: "app-candidates",
   standalone: true,
   imports: [
-    CommonModule,
     MatCardModule,
     MatIconModule,
     MatDialogModule,
     CandidateFilters,
-    // CandidateGridComponent,
-    // CandidateTableComponent,
+    CandidateTable,
   ],
   templateUrl: "./candidates.component.html",
   styleUrls: ["./candidates.component.scss"],
@@ -35,7 +42,7 @@ export class CandidatesComponent {
   private readonly sortBy = signal("name");
 
   // View mode and loading signals
-  readonly viewMode = signal<"grid" | "table">("grid");
+  readonly viewMode = signal<"grid" | "table">("table");
   readonly loading = signal(false);
   readonly filtersLoading = signal(false);
   readonly showAdvancedFilters = signal(false);
@@ -69,33 +76,28 @@ export class CandidatesComponent {
         candidate.email.toLowerCase().includes(search) ||
         candidate.city.toLowerCase().includes(search);
 
-      const matchesStatus =
-        status === "all" ||
-        candidate.status.toLowerCase().replace(" ", "-") === status;
-
       const matchesCity =
         city === "all" ||
         candidate.city.toLowerCase().replace(" ", "-") === city;
 
-      const matchesAge = this.matchesAgeFilter(candidate.age, age);
+      const matchesAge = matchesAgeFilter(candidate.age, age);
+      const matchesDate = matchesDateFilter(candidate.applicationDate, date);
 
-      const matchesDate = this.matchesDateFilter(
-        candidate.applicationDate,
-        date
-      );
-
-      return (
-        matchesSearch &&
-        matchesStatus &&
-        matchesCity &&
-        matchesAge &&
-        matchesDate
-      );
+      return matchesSearch && matchesCity && matchesAge && matchesDate;
     });
 
     // Apply sorting
-    return this.sortCandidates(filtered, sort);
+    return sortCandidates(filtered, sort);
   });
+
+  private readonly filterResetMap: Record<keyof FilterState, () => void> = {
+    searchTerm: () => this.searchTerm.set(""),
+    statusFilter: () => this.statusFilter.set("all"),
+    cityFilter: () => this.cityFilter.set("all"),
+    ageFilter: () => this.ageFilter.set("all"),
+    dateFilter: () => this.dateFilter.set("all"),
+    sortBy: () => this.sortBy.set("name"),
+  };
 
   constructor(
     public dashboardService: DashboardService,
@@ -129,35 +131,15 @@ export class CandidatesComponent {
   }
 
   onRemoveFilter(key: keyof FilterState): void {
-    switch (key) {
-      case "searchTerm":
-        this.searchTerm.set("");
-        break;
-      case "statusFilter":
-        this.statusFilter.set("all");
-        break;
-      case "cityFilter":
-        this.cityFilter.set("all");
-        break;
-      case "ageFilter":
-        this.ageFilter.set("all");
-        break;
-      case "dateFilter":
-        this.dateFilter.set("all");
-        break;
-      case "sortBy":
-        this.sortBy.set("name");
-        break;
-    }
+    this.filterResetMap[key]?.();
   }
 
   clearFilters(): void {
-    this.searchTerm.set("");
-    this.statusFilter.set("all");
-    this.cityFilter.set("all");
-    this.ageFilter.set("all");
-    this.dateFilter.set("all");
-    this.sortBy.set("name");
+    (Object.keys(this.filterResetMap) as (keyof FilterState)[]).forEach(
+      (key) => {
+        this.filterResetMap[key]();
+      }
+    );
   }
 
   toggleViewMode(mode: "grid" | "table"): void {
@@ -170,7 +152,7 @@ export class CandidatesComponent {
 
   viewCandidateDetail(candidate: Candidate): void {
     this.dialog.open(CandidateDetailDialog, {
-      data: { candidate },
+      data: { id: candidate.id },
       width: "800px",
       maxHeight: "90vh",
     });
@@ -184,76 +166,5 @@ export class CandidatesComponent {
   onExportFiltered(): void {
     console.log("Export filtered candidates:", this.filteredCandidates());
     // Implement export functionality
-  }
-
-  // Helper methods
-  private matchesAgeFilter(age: number, filter: string): boolean {
-    if (filter === "all") return true;
-
-    switch (filter) {
-      case "20-25":
-        return age >= 20 && age <= 25;
-      case "26-30":
-        return age >= 26 && age <= 30;
-      case "31-35":
-        return age >= 31 && age <= 35;
-      case "36-40":
-        return age >= 36 && age <= 40;
-      case "40+":
-        return age > 40;
-      default:
-        return true;
-    }
-  }
-
-  private matchesDateFilter(dateString: string, filter: string): boolean {
-    if (filter === "all") return true;
-
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffTime = now.getTime() - date.getTime();
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    switch (filter) {
-      case "last-week":
-        return diffDays <= 7;
-      case "last-month":
-        return diffDays <= 30;
-      case "last-3-months":
-        return diffDays <= 90;
-      case "older":
-        return diffDays > 90;
-      default:
-        return true;
-    }
-  }
-
-  private sortCandidates(candidates: Candidate[], sortBy: string): Candidate[] {
-    const sorted = [...candidates];
-
-    switch (sortBy) {
-      case "name":
-        return sorted.sort((a, b) => a.name.localeCompare(b.name));
-      case "name-desc":
-        return sorted.sort((a, b) => b.name.localeCompare(a.name));
-      case "date":
-        return sorted.sort(
-          (a, b) =>
-            new Date(b.applicationDate).getTime() -
-            new Date(a.applicationDate).getTime()
-        );
-      case "date-desc":
-        return sorted.sort(
-          (a, b) =>
-            new Date(a.applicationDate).getTime() -
-            new Date(b.applicationDate).getTime()
-        );
-      case "age":
-        return sorted.sort((a, b) => a.age - b.age);
-      case "age-desc":
-        return sorted.sort((a, b) => b.age - a.age);
-      default:
-        return sorted;
-    }
   }
 }
