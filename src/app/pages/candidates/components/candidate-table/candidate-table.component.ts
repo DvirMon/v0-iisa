@@ -20,6 +20,7 @@ import {
 } from "@angular/animations";
 import type { Candidate } from "../../../../models/candidate.model";
 import type { ViewMode } from "../../candidates.component";
+import { DaysAgoPipe } from "../../../../shared/pipes/days-ago.pipe";
 
 @Component({
   selector: "app-candidate-table",
@@ -29,6 +30,7 @@ import type { ViewMode } from "../../candidates.component";
     MatIconModule,
     MatChipsModule,
     NgOptimizedImage,
+    DaysAgoPipe,
   ],
   templateUrl: "./candidate-table.component.html",
   styleUrls: ["./candidate-table.component.scss"],
@@ -86,13 +88,6 @@ export class CandidateTable {
 
   onClearFilters(): void {
     this.clearFilters.emit();
-  }
-
-  getDaysAgo(dateString: string): number {
-    const date = new Date(dateString);
-    const today = new Date();
-    const diffTime = Math.abs(today.getTime() - date.getTime());
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   }
 
   // TrackBy function for performance

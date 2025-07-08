@@ -85,7 +85,7 @@
           <div class="table-applied">
             <div class="applied-date">{{ candidate.applicationDate }}</div>
             <div class="applied-ago">
-              {{ getDaysAgo(candidate.applicationDate) }} days ago
+              {{ candidate.applicationDate | daysAgo }} days ago
             </div>
           </div>
         </td>
@@ -166,5 +166,4 @@
   }
 
   <!-- Empty State -->
-
 </div>

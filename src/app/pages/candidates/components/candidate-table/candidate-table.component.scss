@@ -125,7 +125,6 @@
 }
 
 .expanded-detail {
-  overflow: hidden;
 
   .detail-content {
     padding: 12px;
@@ -200,37 +199,6 @@
         flex: none;
       }
     }
-  }
-}
-
-.table-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 16px;
-  text-align: center;
-  background: white;
-  border-radius: 8px;
-
-  .empty-icon {
-    font-size: 48px;
-    width: 48px;
-    height: 48px;
-    color: #bdbdbd;
-    margin-bottom: 12px;
-  }
-
-  h3 {
-    margin: 0 0 6px 0;
-    color: #424242;
-    font-size: 16px;
-  }
-
-  p {
-    margin: 0 0 12px 0;
-    color: #757575;
-    font-size: 14px;
   }
 }
 
