@@ -46,6 +46,20 @@ const sortMap: Record<string, SortFn> = {
   "age-desc": (a, b) => b.age - a.age,
 };
 
+export function matchesSearch(candidate: Candidate, search: string): boolean {
+  if (!search) return true;
+  return (
+    candidate.name.toLowerCase().includes(search) ||
+    candidate.email.toLowerCase().includes(search) ||
+    candidate.city.toLowerCase().includes(search)
+  );
+}
+
+export function matchesCity(candidate: Candidate, city: string): boolean {
+  if (city === "all") return true;
+  return candidate.city.toLowerCase().replace(" ", "-") === city;
+}
+
 export function sortCandidates(
   candidates: Candidate[],
   sortBy: string

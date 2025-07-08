@@ -9,16 +9,17 @@ import { Candidate } from "../../models/candidate.model";
 import { DashboardService } from "../../services/dashboard.service";
 import {
   matchesAgeFilter,
+  matchesCity,
   matchesDateFilter,
-  sortCandidates,
+  matchesSearch
 } from "./candidates.utils";
 import { CandidateDetailDialog } from "./components/candidate-detail/candidate-detail-page.component";
 import {
   CandidateFilters,
   FilterState,
 } from "./components/candidate-filters/candidate-filters.component";
-import { CandidateTable } from "./components/candidate-table/candidate-table.component";
 import { CandidateList } from "./components/candidate-list/candidate-list.component";
+import { CandidateTable } from "./components/candidate-table/candidate-table.component";
 
 export type ViewMode = "list" | "table";
 
@@ -64,35 +65,27 @@ export class CandidatesComponent {
   );
 
   // Computed filtered candidates
-  filteredCandidates = computed(() => {
-    const candidates = this.dashboardService.candidates();
-    const search = this.searchTerm().toLowerCase();
-    const status = this.statusFilter();
-    const city = this.cityFilter();
-    const age = this.ageFilter();
-    const date = this.dateFilter();
-    const sort = this.sortBy();
+readonly filteredCandidates = computed(() => {
+  const candidates = this.dashboardService.candidates();
+  const filters = {
+    search: this.searchTerm().toLowerCase(),
+    status: this.statusFilter(),
+    city: this.cityFilter(),
+    age: this.ageFilter(),
+    date: this.dateFilter(),
+  };
 
-    const filtered = candidates.filter((candidate) => {
-      const matchesSearch =
-        !search ||
-        candidate.name.toLowerCase().includes(search) ||
-        candidate.email.toLowerCase().includes(search) ||
-        candidate.city.toLowerCase().includes(search);
+  return candidates.filter((candidate) => {
+    const conditions = [
+      matchesSearch(candidate, filters.search),
+      matchesCity(candidate, filters.city),
+      matchesAgeFilter(candidate.age, filters.age),
+      matchesDateFilter(candidate.applicationDate, filters.date),
+    ];
 
-      const matchesCity =
-        city === "all" ||
-        candidate.city.toLowerCase().replace(" ", "-") === city;
-
-      const matchesAge = matchesAgeFilter(candidate.age, age);
-      const matchesDate = matchesDateFilter(candidate.applicationDate, date);
-
-      return matchesSearch && matchesCity && matchesAge && matchesDate;
-    });
-
-    // Apply sorting
-    return sortCandidates(filtered, sort);
+    return conditions.every(Boolean);
   });
+});
 
   private readonly filterResetMap: Record<keyof FilterState, () => void> = {
     searchTerm: () => this.searchTerm.set(""),
