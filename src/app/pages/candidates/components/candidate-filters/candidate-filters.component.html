@@ -141,7 +141,7 @@
 
   <!-- Active Filters Display -->
   @if (activeFilters().length > 0) {
-  <div class="active-filters" [@slideDown]="'in'">
+  <div class="active-filters">
     <span class="active-filters-label">Active filters:</span>
     <mat-chip-set>
       @for (filter of activeFilters(); track trackByFilter($index, filter)) {
