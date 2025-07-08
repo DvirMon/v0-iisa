@@ -10,6 +10,7 @@ import { DashboardService } from "../../services/dashboard.service";
 import { StatsGridComponent } from "./components/stats-grid/stats-grid.component";
 import { AgeDistributionChartComponent } from "src/app/shared/components/charts/age-distribution-chart/age-distribution-chart.component";
 import { ChartCardComponent } from "./components/chart-card/chart-card.component";
+import { LocationCardComponent } from "./components/location-card/location-card.component";
 
 @Component({
   selector: "app-overview",
@@ -18,8 +19,8 @@ import { ChartCardComponent } from "./components/chart-card/chart-card.component
     CommonModule,
     StatsGridComponent,
     ChartCardComponent,
-    AgeDistributionChartComponent
-    // LocationCardComponent,
+    AgeDistributionChartComponent,
+    LocationCardComponent,
     // AgeDistributionChartComponent,
     // StatusChartComponent,
   ],
