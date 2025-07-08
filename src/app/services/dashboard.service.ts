@@ -18,9 +18,6 @@ export class DashboardService {
 
   // Computed signals for derived data
   totalCandidates = computed(() => this.candidates().length);
-  approvedCandidates = computed(
-    () => this.candidates().filter((c) => c.status === "Approved").length
-  );
 
   private getMockCandidates(): Candidate[] {
     return [
@@ -34,7 +31,6 @@ export class DashboardService {
         hobbies: "Astronomy, Rock Climbing, Photography",
         summary:
           "Aerospace engineer with 5 years experience in satellite technology",
-        status: "Under Review",
         applicationDate: "2024-01-15",
       },
       {
@@ -46,7 +42,6 @@ export class DashboardService {
         image: "https://i.pravatar.cc/150?img=2",
         hobbies: "Physics, Marathon Running, Chess",
         summary: "Physicist specializing in zero-gravity research",
-        status: "Approved",
         applicationDate: "2024-01-12",
       },
       {
@@ -58,7 +53,6 @@ export class DashboardService {
         image: "https://i.pravatar.cc/150?img=3",
         hobbies: "Piloting, Scuba Diving, Robotics",
         summary: "Commercial pilot with advanced flight training",
-        status: "Pending",
         applicationDate: "2024-01-18",
       },
       {
@@ -70,7 +64,6 @@ export class DashboardService {
         image: "https://i.pravatar.cc/150?img=4",
         hobbies: "Engineering, Mountain Biking, Cooking",
         summary: "Mechanical engineer with space systems expertise",
-        status: "Under Review",
         applicationDate: "2024-01-20",
       },
       {
@@ -82,7 +75,6 @@ export class DashboardService {
         image: "https://i.pravatar.cc/150?img=5",
         hobbies: "Marine Biology, Yoga, Photography",
         summary: "Biologist researching life in extreme environments",
-        status: "Approved",
         applicationDate: "2024-01-14",
       },
       {
@@ -94,7 +86,6 @@ export class DashboardService {
         image: "https://i.pravatar.cc/150?img=6",
         hobbies: "Software Development, Gaming, Music",
         summary: "Software engineer specializing in mission-critical systems",
-        status: "Rejected",
         applicationDate: "2024-01-10",
       },
     ];
@@ -121,15 +112,6 @@ export class DashboardService {
     ];
   }
 
-  getStatusData(): ChartData[] {
-    return [
-      { name: "Approved", value: 12, color: "#4caf50" },
-      { name: "Under Review", value: 18, color: "#ff9800" },
-      { name: "Pending", value: 8, color: "#2196f3" },
-      { name: "Rejected", value: 7, color: "#f44336" },
-    ];
-  }
-
   getVisitsData(): VisitData[] {
     return [
       { date: "Jan 1", visits: 120, registrations: 15 },
@@ -153,17 +135,6 @@ export class DashboardService {
     ];
   }
 
-  // Method to update candidate status
-  updateCandidateStatus(
-    candidateId: number,
-    status: Candidate["status"]
-  ): void {
-    const currentCandidates = this.candidatesSignal();
-    const updatedCandidates = currentCandidates.map((candidate) =>
-      candidate.id === candidateId ? { ...candidate, status } : candidate
-    );
-    this.candidatesSignal.set(updatedCandidates);
-  }
 
   // Method to add new candidate
   addCandidate(candidate: Omit<Candidate, "id">): void {
