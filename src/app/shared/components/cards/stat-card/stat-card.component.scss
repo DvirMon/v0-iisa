@@ -1,0 +1,40 @@
+.stat-card {
+  color: white;
+  
+  &.blue-gradient {
+    background: linear-gradient(135deg, #2196F3, #1976D2);
+  }
+  
+  &.green-gradient {
+    background: linear-gradient(135deg, #4CAF50, #388E3C);
+  }
+  
+  &.purple-gradient {
+    background: linear-gradient(135deg, #9C27B0, #7B1FA2);
+  }
+  
+  &.orange-gradient {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+  }
+
+  mat-card-header {
+    mat-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  }
+
+  .stat-number {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 8px 0;
+  }
+
+  .stat-subtitle {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+}
