@@ -1,0 +1,40 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# Dependency directories
+.pnpm/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE files
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Angular build
+.angular/
+
+# Environment files
+.env
+.env.*
+
+# Misc
+coverage/
+
+# Compiled output
+*.tsbuildinfo
+
+# Others
+*.log
