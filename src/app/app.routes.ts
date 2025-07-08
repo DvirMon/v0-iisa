@@ -1,57 +1,27 @@
-import { Routes } from "@angular/router";
+import type { Routes } from "@angular/router"
 
+// Simplified routes - mainly for deep linking or external access
 export const routes: Routes = [
   {
     path: "",
-    redirectTo: "/overview",
+    redirectTo: "/dashboard",
     pathMatch: "full",
   },
   {
-    path: "overview",
-    loadComponent: () =>
-      import("./pages/overview/overview.component").then(
-        (m) => m.OverviewComponent
-      ),
-    title: "Overview - IISA Dashboard",
+    path: "dashboard",
+    loadComponent: () => import("./app.component").then((m) => m.AppComponent),
+    title: "IISA Dashboard",
   },
-  {
-    path: "candidates",
-    loadComponent: () =>
-      import("./pages/candidates/candidates.component").then(
-        (m) => m.CandidatesComponent
-      ),
-    title: "Candidates - IISA Dashboard",
-  },
+  // Keep candidate detail route for direct access
   {
     path: "candidates/:id",
     loadComponent: () =>
-      import("./pages/candidate-detail/candidate-detail-page.component").then(
-        (m) => m.CandidateDetailPageComponent
-      ),
+      import("./pages/candidate-detail/candidate-detail-page.component").then((m) => m.CandidateDetailPageComponent),
     title: "Candidate Details - IISA Dashboard",
   },
   {
-    path: "analytics",
-    loadComponent: () =>
-      import("./pages/analytics/analytics.component").then(
-        (m) => m.AnalyticsComponent
-      ),
-    title: "Analytics - IISA Dashboard",
-  },
-  {
-    path: "settings",
-    loadComponent: () =>
-      import("./pages/settings/settings.component").then(
-        (m) => m.SettingsComponent
-      ),
-    title: "Settings - IISA Dashboard",
-  },
-  {
     path: "**",
-    loadComponent: () =>
-      import("./pages/not-found/not-found.component").then(
-        (m) => m.NotFoundComponent
-      ),
+    loadComponent: () => import("./pages/not-found/not-found.component").then((m) => m.NotFoundComponent),
     title: "Page Not Found - IISA Dashboard",
   },
-];
+]

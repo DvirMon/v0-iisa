@@ -4,7 +4,7 @@
     <div class="header-left">
       <mat-icon class="header-icon">rocket_launch</mat-icon>
       <div class="header-text">
-        <h1 routerLink="/" class="app-title">IISA Dashboard</h1>
+        <h1 class="app-title">IISA Dashboard</h1>
         <span class="subtitle">Israeli Imaginary Space Agency</span>
       </div>
     </div>
@@ -19,29 +19,29 @@
   </div>
 </mat-toolbar>
 
-<!-- Navigation -->
-<nav class="main-nav">
-  <div class="nav-content">
-    <button mat-button routerLink="/overview" routerLinkActive="active">
-      <mat-icon>dashboard</mat-icon>
-      Overview
-    </button>
-    <button mat-button routerLink="/candidates" routerLinkActive="active">
-      <mat-icon>people</mat-icon>
-      Candidates
-    </button>
-    <button mat-button routerLink="/analytics" routerLinkActive="active">
-      <mat-icon>analytics</mat-icon>
-      Analytics
-    </button>
-    <button mat-button routerLink="/settings" routerLinkActive="active">
-      <mat-icon>settings</mat-icon>
-      Settings
-    </button>
-  </div>
-</nav>
+<!-- Main Content with Tabs -->
+<div class="main-content">
+  <mat-tab-group class="main-tabs" animationDuration="300ms">
+    <!-- Overview Tab -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>dashboard</mat-icon>
+        <span>Overview</span>
+      </ng-template>
+      <div class="tab-content">
+        <app-overview></app-overview>
+      </div>
+    </mat-tab>
 
-<!-- Router Outlet -->
-<main class="main-content">
-  <router-outlet></router-outlet>
-</main>
+    <!-- Candidates Tab -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>people</mat-icon>
+        <span>Candidates</span>
+      </ng-template>
+      <div class="tab-content">
+        <app-candidates></app-candidates>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

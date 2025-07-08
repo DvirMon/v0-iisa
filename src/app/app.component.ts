@@ -1,22 +1,25 @@
-import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterOutlet, RouterModule } from "@angular/router";
-import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
+import { Component, signal } from "@angular/core";
 import { MatChipsModule } from "@angular/material/chips";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatToolbarModule } from "@angular/material/toolbar";
+
+// Import page components
+import { CandidatesComponent } from "./pages/candidates/candidates.component";
+import { OverviewComponent } from "./pages/overview/overview.component";
 
 @Component({
   selector: "app-root",
   standalone: true,
   imports: [
     CommonModule,
-    RouterOutlet,
-    RouterModule,
     MatToolbarModule,
-    MatButtonModule,
+    MatTabsModule,
     MatIconModule,
     MatChipsModule,
+    OverviewComponent,
+    CandidatesComponent,
   ],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
