@@ -1,20 +1,13 @@
-import {
-  Component,
-  computed,
-  inject,
-  linkedSignal
-} from "@angular/core";
+import { Component, computed, inject, linkedSignal } from "@angular/core";
 import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
-import { DashboardService } from "../../services/dashboard.service";
+import { DashboardService } from "../../../../services/dashboard.service";
 
 @Component({
-  selector: "app-candidate-detail-page",
-  standalone: true,
   imports: [MatCardModule, MatButtonModule, MatIconModule, MatChipsModule],
   templateUrl: "./candidate-detail-page.component.html",
   styleUrls: ["./candidate-detail-page.component.scss"],
@@ -60,5 +53,4 @@ export class CandidateDetailDialog {
       this.currentIndex.set(idx - 1);
     }
   }
-
 }
