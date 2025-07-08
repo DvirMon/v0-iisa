@@ -1,9 +1,8 @@
-import { Component, computed, signal } from "@angular/core";
+import { Component, computed, inject, signal } from "@angular/core";
 
 import { MatCardModule } from "@angular/material/card";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
-import { Router } from "@angular/router";
 
 import { Candidate } from "../../models/candidate.model";
 import { DashboardService } from "../../services/dashboard.service";
@@ -11,7 +10,7 @@ import {
   matchesAgeFilter,
   matchesCity,
   matchesDateFilter,
-  matchesSearch
+  matchesSearch,
 } from "./candidates.utils";
 import { CandidateDetailDialog } from "./components/candidate-detail/candidate-detail-page.component";
 import {
@@ -25,7 +24,6 @@ export type ViewMode = "list" | "table";
 
 @Component({
   selector: "app-candidates",
-  standalone: true,
   imports: [
     MatCardModule,
     MatIconModule,
@@ -38,6 +36,9 @@ export type ViewMode = "list" | "table";
   styleUrls: ["./candidates.component.scss"],
 })
 export class CandidatesComponent {
+  private readonly dashboardService = inject(DashboardService);
+  private readonly dialog = inject(MatDialog);
+
   // Filter signals
   private readonly searchTerm = signal("");
   private readonly statusFilter = signal("all");
@@ -52,6 +53,8 @@ export class CandidatesComponent {
   readonly filtersLoading = signal(false);
   readonly showAdvancedFilters = signal(false);
 
+  readonly totalCandidates = this.dashboardService.totalCandidates;
+
   // Computed filter state
   readonly filters = computed(
     (): FilterState => ({
@@ -65,27 +68,27 @@ export class CandidatesComponent {
   );
 
   // Computed filtered candidates
-readonly filteredCandidates = computed(() => {
-  const candidates = this.dashboardService.candidates();
-  const filters = {
-    search: this.searchTerm().toLowerCase(),
-    status: this.statusFilter(),
-    city: this.cityFilter(),
-    age: this.ageFilter(),
-    date: this.dateFilter(),
-  };
+  readonly filteredCandidates = computed(() => {
+    const candidates = this.dashboardService.candidates();
+    const filters = {
+      search: this.searchTerm().toLowerCase(),
+      status: this.statusFilter(),
+      city: this.cityFilter(),
+      age: this.ageFilter(),
+      date: this.dateFilter(),
+    };
 
-  return candidates.filter((candidate) => {
-    const conditions = [
-      matchesSearch(candidate, filters.search),
-      matchesCity(candidate, filters.city),
-      matchesAgeFilter(candidate.age, filters.age),
-      matchesDateFilter(candidate.applicationDate, filters.date),
-    ];
+    return candidates.filter((candidate) => {
+      const conditions = [
+        matchesSearch(candidate, filters.search),
+        matchesCity(candidate, filters.city),
+        matchesAgeFilter(candidate.age, filters.age),
+        matchesDateFilter(candidate.applicationDate, filters.date),
+      ];
 
-    return conditions.every(Boolean);
+      return conditions.every(Boolean);
+    });
   });
-});
 
   private readonly filterResetMap: Record<keyof FilterState, () => void> = {
     searchTerm: () => this.searchTerm.set(""),
@@ -95,12 +98,6 @@ readonly filteredCandidates = computed(() => {
     dateFilter: () => this.dateFilter.set("all"),
     sortBy: () => this.sortBy.set("name"),
   };
-
-  constructor(
-    public dashboardService: DashboardService,
-    private router: Router,
-    private dialog: MatDialog
-  ) {}
 
   // Filter methods
   onSearchChange(value: string): void {

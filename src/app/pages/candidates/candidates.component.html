@@ -15,7 +15,7 @@
       [filters]="filters()"
       [viewMode]="viewMode()"
       [resultCount]="filteredCandidates().length"
-      [totalCount]="dashboardService.totalCandidates()"
+      [totalCount]="totalCandidates()"
       [loading]="filtersLoading()"
       (searchChange)="onSearchChange($event)"
       (statusFilterChange)="onStatusFilterChange($event)"

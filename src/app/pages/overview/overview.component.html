@@ -1,33 +1,16 @@
 <div class="overview-container">
-  <!-- Overview Cards -->
-  <app-stats-grid
-    [statCards]="statCards()"
-    (cardClick)="onStatCardClick($event)"
-    (cardHover)="onStatCardHover($event)">
-  </app-stats-grid>
-
   <div class="charts-grid">
     <app-chart-card
       title="Age Distribution"
-      subtitle="Breakdown of candidate ages"
-      icon="calendar_today">
-      <app-age-distribution-chart
-        [data]="ageData()"
-        (select)="onChartSelect($event)"
-        (activate)="onChartActivate($event)"
-        (deactivate)="onChartDeactivate($event)">
+      subtitle="Breakdown of candidate ages">
+      <app-age-distribution-chart [data]="ageData()">
       </app-age-distribution-chart>
     </app-chart-card>
 
     <app-chart-card
-      title="Application Status"
-      subtitle="Current status of all applications">
-      <!-- <app-status-chart 
-        [data]="statusData()"
-        (select)="onChartSelect($event)"
-        (activate)="onChartActivate($event)"
-        (deactivate)="onChartDeactivate($event)"> -->
-      <!-- </app-status-chart> -->
+      title="Popular Hobbies"
+      subtitle="Most common interests among candidates">
+      <app-hobbies-chart [data]="hobbiesData()"></app-hobbies-chart>
     </app-chart-card>
   </div>
 
