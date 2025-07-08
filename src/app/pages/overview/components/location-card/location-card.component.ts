@@ -2,19 +2,16 @@ import {
   Component,
   effect,
   ElementRef,
-  inject,
   input,
-  viewChild,
+  viewChild
 } from "@angular/core";
-import { GeocodingService } from "./location.service";
 import {
   latLng,
-  tileLayer,
-  marker,
   Map as LeafletMap,
   map as leafletMap,
+  marker,
   Marker,
-  TileLayer,
+  tileLayer
 } from "leaflet";
 
 @Component({

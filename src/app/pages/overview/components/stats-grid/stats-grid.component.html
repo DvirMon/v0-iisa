@@ -1,27 +1,36 @@
 <div class="stats-grid" [class.loading]="loading()">
   <!-- Loading State -->
-  <div *ngIf="loading()" class="stats-loading">
-    <div *ngFor="let item of [1,2,3,4]" class="stat-skeleton">
-      <div class="skeleton-header"></div>
-      <div class="skeleton-number"></div>
-      <div class="skeleton-subtitle"></div>
+  @if (loading()) {
+    <div class="stats-loading">
+      @for (item of [1,2,3,4]; track item) {
+        <div class="stat-skeleton">
+          <div class="skeleton-header"></div>
+          <div class="skeleton-number"></div>
+          <div class="skeleton-subtitle"></div>
+        </div>
+      }
     </div>
-  </div>
+  }
 
   <!-- Stats Cards -->
-  <div *ngIf="!loading()" class="stats-container">
-    <app-stat-card 
-      *ngFor="let card of statCards(); trackBy: trackByStatCard" 
-      [data]="card"
-      [class]="'stat-item-' + card.gradient"
-      [@slideIn]="'in'">
-    </app-stat-card>
-  </div>
+  @if (!loading()) {
+    <div class="stats-container">
+      @for (card of statCards(); track trackByStatCard($index, card)) {
+        <app-stat-card
+          [data]="card"
+          [class]="'stat-item-' + card.gradient"
+          [@slideIn]="'in'">
+        </app-stat-card>
+      }
+    </div>
+  }
 
   <!-- Empty State -->
-  <div *ngIf="!loading() && statCards().length === 0" class="stats-empty">
-    <mat-icon class="empty-icon">analytics</mat-icon>
-    <h3>No Statistics Available</h3>
-    <p>Statistics will appear here when data is loaded.</p>
-  </div>
+  @if (!loading() && statCards().length === 0) {
+    <div class="stats-empty">
+      <mat-icon class="empty-icon">analytics</mat-icon>
+      <h3>No Statistics Available</h3>
+      <p>Statistics will appear here when data is loaded.</p>
+    </div>
+  }
 </div>

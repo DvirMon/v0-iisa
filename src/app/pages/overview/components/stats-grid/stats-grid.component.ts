@@ -1,5 +1,5 @@
 import { animate, style, transition, trigger } from "@angular/animations";
-import { CommonModule } from "@angular/common";
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -15,7 +15,7 @@ import {
 
 @Component({
   selector: "app-stats-grid",
-  imports: [CommonModule, MatIconModule, StatCardComponent],
+  imports: [MatIconModule, StatCardComponent],
   templateUrl: "./stats-grid.component.html",
   styleUrls: ["./stats-grid.component.scss"],
   changeDetection: ChangeDetectionStrategy.OnPush,
