@@ -72,7 +72,7 @@ export class CandidateFilters {
   resultCount = input.required<number>();
   totalCount = input.required<number>();
   loading = input(false);
-  showAdvancedFilters = model(true);
+  showAdvancedFilters = model(false);
 
   // Signal-based outputs
   searchChange = output<string>();
