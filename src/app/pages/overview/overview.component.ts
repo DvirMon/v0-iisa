@@ -1,28 +1,24 @@
-import { CommonModule } from "@angular/common";
 import { Component, computed, signal, type OnInit } from "@angular/core";
 import { StatCardData } from "src/app/shared/components/cards/stat-card/stat-card.component";
+import { AgeDistributionChartComponent } from "src/app/shared/components/charts/age-distribution-chart/age-distribution-chart.component";
 import {
   ChartData,
   LocationData,
   VisitData,
 } from "../../models/candidate.model";
 import { DashboardService } from "../../services/dashboard.service";
-import { StatsGridComponent } from "./components/stats-grid/stats-grid.component";
-import { AgeDistributionChartComponent } from "src/app/shared/components/charts/age-distribution-chart/age-distribution-chart.component";
-import { ChartCardComponent } from "./components/chart-card/chart-card.component";
+import { ChartCardComponent } from "../../shared/components/cards/chart-card/chart-card.component";
 import { LocationCardComponent } from "./components/location-card/location-card.component";
+import { StatsGridComponent } from "./components/stats-grid/stats-grid.component";
 
 @Component({
   selector: "app-overview",
   standalone: true,
   imports: [
-    CommonModule,
     StatsGridComponent,
     ChartCardComponent,
     AgeDistributionChartComponent,
     LocationCardComponent,
-    // AgeDistributionChartComponent,
-    // StatusChartComponent,
   ],
   templateUrl: "./overview.component.html",
   styleUrls: ["./overview.component.scss"],
@@ -72,13 +68,6 @@ export class OverviewComponent implements OnInit {
       subtitle: `Conversion: ${this.conversionRate()}%`,
       gradient: "purple",
     },
-    {
-      title: "Approved",
-      icon: "star",
-      value: this.dashboardService.approvedCandidates(),
-      subtitle: "Ready for space!",
-      gradient: "orange",
-    },
   ]);
 
   constructor(public dashboardService: DashboardService) {}
@@ -89,7 +78,6 @@ export class OverviewComponent implements OnInit {
 
   private loadChartData(): void {
     this.ageData.set(this.dashboardService.getAgeData());
-    this.statusData.set(this.dashboardService.getStatusData());
     this.locationData.set(this.dashboardService.getLocationData());
     this.visitsData.set(this.dashboardService.getVisitsData());
   }
