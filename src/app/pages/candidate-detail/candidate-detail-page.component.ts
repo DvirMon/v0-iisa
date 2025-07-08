@@ -1,5 +1,5 @@
-import { Component, signal, computed, type OnInit } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { Component, signal, computed, type OnInit, inject } from "@angular/core";
+
 import { ActivatedRoute, Router } from "@angular/router";
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
@@ -12,16 +12,19 @@ import { Candidate } from "../../models/candidate.model";
   selector: "app-candidate-detail-page",
   standalone: true,
   imports: [
-    CommonModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
-    MatChipsModule,
-  ],
+    MatChipsModule
+],
   templateUrl: "./candidate-detail-page.component.html",
   styleUrls: ["./candidate-detail-page.component.scss"],
 })
 export class CandidateDetailPageComponent implements OnInit {
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private dashboardService = inject(DashboardService);
+
   candidateSignal = signal<Candidate | null>(null);
 
   // Computed signal for days since application
@@ -33,12 +36,6 @@ export class CandidateDetailPageComponent implements OnInit {
     const diffTime = Math.abs(today.getTime() - date.getTime());
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   });
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private dashboardService: DashboardService
-  ) {}
 
   ngOnInit(): void {
     const candidateId = Number(this.route.snapshot.paramMap.get("id"));

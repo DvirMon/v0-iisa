@@ -1,10 +1,4 @@
-import {
-  Component,
-  signal,
-  computed,
-  effect,
-  type OnInit,
-} from "@angular/core";
+import { Component, signal, computed, effect, type OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -65,6 +59,9 @@ import { CandidateDetailComponent } from "../candidate-detail/candidate-detail.c
   styleUrls: ["./dashboard.component.scss"],
 })
 export class DashboardComponent implements OnInit {
+  dashboardService = inject(DashboardService);
+  private dialog = inject(MatDialog);
+
   // Filter signals
   searchTerm = signal("");
   statusFilter = signal("all");
@@ -136,10 +133,7 @@ export class DashboardComponent implements OnInit {
     domain: ["#2196F3", "#4CAF50", "#FF9800", "#F44336", "#9C27B0", "#00BCD4"],
   };
 
-  constructor(
-    public dashboardService: DashboardService,
-    private dialog: MatDialog
-  ) {
+  constructor() {
     // Effect to log when filtered candidates change
     effect(() => {
       console.log(

@@ -1,5 +1,5 @@
-import { Component, computed, signal, type OnInit } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { Component, computed, signal, type OnInit, inject } from "@angular/core";
+
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
@@ -9,11 +9,13 @@ import { ChartData, VisitData } from "../../models/candidate.model";
 @Component({
   selector: "app-analytics",
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatIconModule, NgxChartsModule],
+  imports: [MatCardModule, MatIconModule, NgxChartsModule],
   templateUrl: "./analytics.component.html",
   styleUrls: ["./analytics.component.scss"],
 })
 export class AnalyticsComponent implements OnInit {
+  private dashboardService = inject(DashboardService);
+
   // Chart data signals
   visitsData = signal<VisitData[]>([]);
   hobbiesData = signal<ChartData[]>([]);
@@ -40,8 +42,6 @@ export class AnalyticsComponent implements OnInit {
   chartColorScheme = {
     domain: ["#2196F3", "#4CAF50", "#FF9800", "#F44336", "#9C27B0", "#00BCD4"],
   };
-
-  constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
     this.loadChartData();

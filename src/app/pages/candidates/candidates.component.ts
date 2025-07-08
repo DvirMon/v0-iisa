@@ -1,5 +1,5 @@
-import { Component, signal, computed } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { Component, signal, computed, inject } from "@angular/core";
+
 import { Router } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { MatCardModule } from "@angular/material/card";
@@ -18,7 +18,6 @@ import { Candidate } from "../../models/candidate.model";
   selector: "app-candidates",
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     MatCardModule,
     MatInputModule,
@@ -28,12 +27,15 @@ import { Candidate } from "../../models/candidate.model";
     MatChipsModule,
     MatTableModule,
     MatTooltipModule,
-    MatFormFieldModule,
-  ],
+    MatFormFieldModule
+],
   templateUrl: "./candidates.component.html",
   styleUrls: ["./candidates.component.scss"],
 })
 export class CandidatesComponent {
+  dashboardService = inject(DashboardService);
+  private router = inject(Router);
+
   // Filter signals
   searchTerm = signal("");
   statusFilter = signal("all");
@@ -77,11 +79,6 @@ export class CandidatesComponent {
     "applied",
     "actions",
   ];
-
-  constructor(
-    public dashboardService: DashboardService,
-    private router: Router
-  ) {}
 
   // Filter methods
   onSearchChange(event: Event): void {

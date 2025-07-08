@@ -1,5 +1,5 @@
-import { Component, signal, computed } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { Component, signal, computed, inject } from "@angular/core";
+
 import { MatDialogModule, type MatDialogRef } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
@@ -11,13 +11,12 @@ import { Candidate } from "../../models/candidate.model";
   selector: "app-candidate-detail",
   standalone: true,
   imports: [
-    CommonModule,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    MatCardModule,
-  ],
+    MatCardModule
+],
   templateUrl: "./candidate-detail.component.html",
   styleUrls: ["./candidate-detail.component.scss"],
 })
@@ -54,10 +53,10 @@ export class CandidateDetailComponent {
   dialogRef: MatDialogRef<CandidateDetailComponent>;
   data: { candidate: Candidate };
 
-  constructor(
-    dialogRef: MatDialogRef<CandidateDetailComponent>,
-    data: { candidate: Candidate }
-  ) {
+  constructor() {
+    const dialogRef = inject<MatDialogRef<CandidateDetailComponent>>(MatDialogRef);
+    const data = inject({ candidate: Candidate });
+
     this.dialogRef = dialogRef;
     this.data = data;
     this.candidateSignal.set(this.data.candidate);

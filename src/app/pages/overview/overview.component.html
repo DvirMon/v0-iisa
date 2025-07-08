@@ -126,10 +126,12 @@
         <div class="location-marker marker-3"></div>
       </div>
       <div class="location-stats">
-        <div class="location-stat" *ngFor="let location of locationData()">
-          <div class="location-count">{{ location.count }}</div>
-          <div class="location-name">{{ location.city }}</div>
-        </div>
+        @for (location of locationData(); track location) {
+          <div class="location-stat">
+            <div class="location-count">{{ location.count }}</div>
+            <div class="location-name">{{ location.city }}</div>
+          </div>
+        }
       </div>
     </mat-card-content>
   </mat-card>

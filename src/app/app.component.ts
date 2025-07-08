@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+
 import { Component, signal } from "@angular/core";
 import { MatChipsModule } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
@@ -13,14 +13,13 @@ import { OverviewComponent } from "./pages/overview/overview.component";
   selector: "app-root",
   standalone: true,
   imports: [
-    CommonModule,
     MatToolbarModule,
     MatTabsModule,
     MatIconModule,
     MatChipsModule,
     OverviewComponent,
-    CandidatesComponent,
-  ],
+    CandidatesComponent
+],
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.scss"],
 })

@@ -1,4 +1,4 @@
-import { Component, signal, computed, type OnInit } from "@angular/core";
+import { Component, signal, computed, type OnInit, inject } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatCardModule } from "@angular/material/card";
 import { MatIconModule } from "@angular/material/icon";
@@ -18,6 +18,8 @@ import {
   styleUrls: ["./overview.component.scss"],
 })
 export class OverviewComponent implements OnInit {
+  dashboardService = inject(DashboardService);
+
   // Chart data signals
   ageData = signal<ChartData[]>([]);
   statusData = signal<ChartData[]>([]);
@@ -43,8 +45,6 @@ export class OverviewComponent implements OnInit {
     group: ScaleType.Ordinal,
     domain: ["#2196F3", "#4CAF50", "#FF9800", "#F44336", "#9C27B0", "#00BCD4"],
   };
-
-  constructor(public dashboardService: DashboardService) {}
 
   ngOnInit(): void {
     this.loadChartData();
