@@ -16,7 +16,7 @@
             <input 
               matInput 
               [value]="searchTerm()"
-              (input)="onSearchChange($event.target?.value || '')"
+              (input)="onSearchChange($event)"
               placeholder="Search by name, email, or city...">
             <mat-icon matSuffix>search</mat-icon>
           </mat-form-field>

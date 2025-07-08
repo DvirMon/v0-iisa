@@ -1,19 +1,26 @@
-import { Injectable, signal, computed } from "@angular/core"
-import type { Candidate, ChartData, LocationData, VisitData } from "../models/candidate.model"
+import { Injectable, signal, computed } from "@angular/core";
+import {
+  Candidate,
+  ChartData,
+  LocationData,
+  VisitData,
+} from "../models/candidate.model";
 
 @Injectable({
   providedIn: "root",
 })
 export class DashboardService {
   // Signal for candidates data
-  private candidatesSignal = signal<Candidate[]>(this.getMockCandidates())
+  private candidatesSignal = signal<Candidate[]>(this.getMockCandidates());
 
   // Public readonly signal
-  candidates = this.candidatesSignal.asReadonly()
+  candidates = this.candidatesSignal.asReadonly();
 
   // Computed signals for derived data
-  totalCandidates = computed(() => this.candidates().length)
-  approvedCandidates = computed(() => this.candidates().filter((c) => c.status === "Approved").length)
+  totalCandidates = computed(() => this.candidates().length);
+  approvedCandidates = computed(
+    () => this.candidates().filter((c) => c.status === "Approved").length
+  );
 
   private getMockCandidates(): Candidate[] {
     return [
@@ -25,7 +32,8 @@ export class DashboardService {
         city: "Tel Aviv",
         image: "https://i.pravatar.cc/150?img=1",
         hobbies: "Astronomy, Rock Climbing, Photography",
-        summary: "Aerospace engineer with 5 years experience in satellite technology",
+        summary:
+          "Aerospace engineer with 5 years experience in satellite technology",
         status: "Under Review",
         applicationDate: "2024-01-15",
       },
@@ -89,7 +97,7 @@ export class DashboardService {
         status: "Rejected",
         applicationDate: "2024-01-10",
       },
-    ]
+    ];
   }
 
   // Static data methods (could also be signals if they change)
@@ -100,7 +108,7 @@ export class DashboardService {
       { name: "31-35", value: 12 },
       { name: "36-40", value: 7 },
       { name: "41+", value: 3 },
-    ]
+    ];
   }
 
   getLocationData(): LocationData[] {
@@ -110,7 +118,7 @@ export class DashboardService {
       { city: "Haifa", count: 6, lat: 32.794, lng: 34.9896 },
       { city: "Beer Sheva", count: 4, lat: 31.2518, lng: 34.7915 },
       { city: "Eilat", count: 3, lat: 29.5581, lng: 34.9482 },
-    ]
+    ];
   }
 
   getStatusData(): ChartData[] {
@@ -119,7 +127,7 @@ export class DashboardService {
       { name: "Under Review", value: 18, color: "#ff9800" },
       { name: "Pending", value: 8, color: "#2196f3" },
       { name: "Rejected", value: 7, color: "#f44336" },
-    ]
+    ];
   }
 
   getVisitsData(): VisitData[] {
@@ -131,7 +139,7 @@ export class DashboardService {
       { date: "Jan 5", visits: 250, registrations: 45 },
       { date: "Jan 6", visits: 300, registrations: 52 },
       { date: "Jan 7", visits: 280, registrations: 48 },
-    ]
+    ];
   }
 
   getHobbiesData(): ChartData[] {
@@ -142,28 +150,33 @@ export class DashboardService {
       { name: "Arts", value: 8 },
       { name: "Science", value: 22 },
       { name: "Adventure", value: 10 },
-    ]
+    ];
   }
 
   // Method to update candidate status
-  updateCandidateStatus(candidateId: number, status: Candidate["status"]): void {
-    const currentCandidates = this.candidatesSignal()
+  updateCandidateStatus(
+    candidateId: number,
+    status: Candidate["status"]
+  ): void {
+    const currentCandidates = this.candidatesSignal();
     const updatedCandidates = currentCandidates.map((candidate) =>
-      candidate.id === candidateId ? { ...candidate, status } : candidate,
-    )
-    this.candidatesSignal.set(updatedCandidates)
+      candidate.id === candidateId ? { ...candidate, status } : candidate
+    );
+    this.candidatesSignal.set(updatedCandidates);
   }
 
   // Method to add new candidate
   addCandidate(candidate: Omit<Candidate, "id">): void {
-    const currentCandidates = this.candidatesSignal()
-    const newId = Math.max(...currentCandidates.map((c) => c.id)) + 1
-    const newCandidate: Candidate = { ...candidate, id: newId }
-    this.candidatesSignal.update((candidates) => [...candidates, newCandidate])
+    const currentCandidates = this.candidatesSignal();
+    const newId = Math.max(...currentCandidates.map((c) => c.id)) + 1;
+    const newCandidate: Candidate = { ...candidate, id: newId };
+    this.candidatesSignal.update((candidates) => [...candidates, newCandidate]);
   }
 
   // Method to remove candidate
   removeCandidate(candidateId: number): void {
-    this.candidatesSignal.update((candidates) => candidates.filter((c) => c.id !== candidateId))
+    this.candidatesSignal.update((candidates) =>
+      candidates.filter((c) => c.id !== candidateId)
+    );
   }
 }
