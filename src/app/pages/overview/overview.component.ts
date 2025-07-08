@@ -24,13 +24,12 @@ import { StatsGridComponent } from "./components/stats-grid/stats-grid.component
   styleUrls: ["./overview.component.scss"],
 })
 export class OverviewComponent implements OnInit {
-  // Chart data signals
   ageData = signal<ChartData[]>([]);
   statusData = signal<ChartData[]>([]);
   locationData = signal<LocationData[]>([]);
   visitsData = signal<VisitData[]>([]);
 
-  // Add after other signals
+  // Loading state
   statsLoading = signal(false);
 
   // Computed statistics

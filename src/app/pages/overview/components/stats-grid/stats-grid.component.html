@@ -1,6 +1,6 @@
-<div class="stats-grid" [class.loading]="loading">
+<div class="stats-grid" [class.loading]="loading()">
   <!-- Loading State -->
-  <div *ngIf="loading" class="stats-loading">
+  <div *ngIf="loading()" class="stats-loading">
     <div *ngFor="let item of [1,2,3,4]" class="stat-skeleton">
       <div class="skeleton-header"></div>
       <div class="skeleton-number"></div>
@@ -9,9 +9,9 @@
   </div>
 
   <!-- Stats Cards -->
-  <div *ngIf="!loading" class="stats-container">
+  <div *ngIf="!loading()" class="stats-container">
     <app-stat-card 
-      *ngFor="let card of statCards; trackBy: trackByStatCard" 
+      *ngFor="let card of statCards(); trackBy: trackByStatCard" 
       [data]="card"
       [class]="'stat-item-' + card.gradient"
       [@slideIn]="'in'">
@@ -19,7 +19,7 @@
   </div>
 
   <!-- Empty State -->
-  <div *ngIf="!loading && statCards.length === 0" class="stats-empty">
+  <div *ngIf="!loading() && statCards().length === 0" class="stats-empty">
     <mat-icon class="empty-icon">analytics</mat-icon>
     <h3>No Statistics Available</h3>
     <p>Statistics will appear here when data is loaded.</p>
