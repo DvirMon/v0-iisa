@@ -31,7 +31,16 @@
     </app-candidate-filters>
 
     <mat-card-content>
-      @if (viewMode() === 'grid') {} @else {
+      @if (viewMode() === 'list') {
+
+      <app-candidate-list
+        [candidates]="filteredCandidates()"
+        [loading]="loading()"
+        (candidateClick)="viewCandidateDetail($event)"
+        (clearFilters)="clearFilters()">
+      </app-candidate-list>
+
+      } @else {
       <app-candidate-table
         [candidates]="filteredCandidates()"
         [loading]="loading()"
@@ -41,49 +50,6 @@
       </app-candidate-table>
 
       }
-
-      <!-- <app-candidate-grid 
-        *ngIf="viewMode() === 'grid'"
-        [candidates]="filteredCandidates()"
-        [loading]="loading()"
-        (candidateClick)="viewCandidateDetail($event)"
-        (clearFilters)="clearFilters()">
-      </app-candidate-grid> -->
-
-      <!-- Grid View -->
-      <!-- @if (viewMode() === 'grid') {
-      <div class="candidates-grid">
-        @for (candidate of filteredCandidates(); track candidate) {
-        <mat-card
-          class="candidate-card"
-          (click)="viewCandidateDetail(candidate)">
-          <mat-card-content>
-            <div class="candidate-info">
-              <img
-                [src]="candidate.image"
-                [alt]="candidate.name"
-                class="candidate-avatar" />
-              <div class="candidate-details">
-                <h3 class="candidate-name">{{ candidate.name }}</h3>
-                <p class="candidate-location">
-                  <mat-icon class="location-icon">place</mat-icon>
-                  {{ candidate.city }} • Age {{ candidate.age }}
-                </p>
-                <p class="candidate-summary">{{ candidate.summary }}</p>
-                <div class="candidate-footer">
-                  <span class="application-date">{{
-                    candidate.applicationDate
-                  }}</span>
-                </div>
-              </div>
-            </div>
-          </mat-card-content>
-        </mat-card>
-        }
-      </div>
-      } -->
-
-      <!-- Table View -->
 
       <!-- Empty State -->
       @if (filteredCandidates().length === 0) {

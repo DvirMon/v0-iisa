@@ -18,6 +18,9 @@ import {
   FilterState,
 } from "./components/candidate-filters/candidate-filters.component";
 import { CandidateTable } from "./components/candidate-table/candidate-table.component";
+import { CandidateList } from "./components/candidate-list/candidate-list.component";
+
+export type ViewMode = "list" | "table";
 
 @Component({
   selector: "app-candidates",
@@ -28,6 +31,7 @@ import { CandidateTable } from "./components/candidate-table/candidate-table.com
     MatDialogModule,
     CandidateFilters,
     CandidateTable,
+    CandidateList,
   ],
   templateUrl: "./candidates.component.html",
   styleUrls: ["./candidates.component.scss"],
@@ -42,7 +46,7 @@ export class CandidatesComponent {
   private readonly sortBy = signal("name");
 
   // View mode and loading signals
-  readonly viewMode = signal<"grid" | "table">("table");
+  readonly viewMode = signal<ViewMode>("list");
   readonly loading = signal(false);
   readonly filtersLoading = signal(false);
   readonly showAdvancedFilters = signal(false);
@@ -142,7 +146,7 @@ export class CandidatesComponent {
     );
   }
 
-  toggleViewMode(mode: "grid" | "table"): void {
+  toggleViewMode(mode: ViewMode): void {
     this.viewMode.set(mode);
   }
 
