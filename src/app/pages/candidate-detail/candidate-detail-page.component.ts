@@ -1,18 +1,16 @@
 import {
   Component,
-  signal,
   computed,
-  type OnInit,
   inject,
+  linkedSignal
 } from "@angular/core";
+import { MAT_DIALOG_DATA } from "@angular/material/dialog";
 
-import { ActivatedRoute, Router } from "@angular/router";
-import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
-import { MatIconModule } from "@angular/material/icon";
+import { MatCardModule } from "@angular/material/card";
 import { MatChipsModule } from "@angular/material/chips";
+import { MatIconModule } from "@angular/material/icon";
 import { DashboardService } from "../../services/dashboard.service";
-import { Candidate } from "../../models/candidate.model";
 
 @Component({
   selector: "app-candidate-detail-page",
@@ -21,12 +19,23 @@ import { Candidate } from "../../models/candidate.model";
   templateUrl: "./candidate-detail-page.component.html",
   styleUrls: ["./candidate-detail-page.component.scss"],
 })
-export class CandidateDetailDialog implements OnInit {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private dashboardService = inject(DashboardService);
+export class CandidateDetailDialog {
+  private readonly data = inject<{
+    id: number;
+  }>(MAT_DIALOG_DATA);
 
-  candidateSignal = signal<Candidate | null>(null);
+  private readonly dashboardService = inject(DashboardService);
+
+  candidatesList = this.dashboardService.candidates;
+  currentIndex = linkedSignal(() =>
+    this.candidatesList().findIndex((c) => c.id === this.data.id)
+  );
+
+  candidateSignal = computed(() => {
+    const candidates = this.candidatesList();
+    const idx = this.currentIndex();
+    return candidates[idx] ?? null;
+  });
 
   // Computed signal for days since application
   daysSinceApplication = computed(() => {
@@ -38,59 +47,18 @@ export class CandidateDetailDialog implements OnInit {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
   });
 
-  ngOnInit(): void {
-    const candidateId = Number(this.route.snapshot.paramMap.get("id"));
-    const candidate = this.dashboardService
-      .candidates()
-      .find((c) => c.id === candidateId);
-
-    if (candidate) {
-      this.candidateSignal.set(candidate);
-    } else {
-      // Redirect to candidates page if candidate not found
-      this.router.navigate(["/candidates"]);
+  goToNextCandidate(): void {
+    const idx = this.currentIndex();
+    if (idx < this.candidatesList().length - 1) {
+      this.currentIndex.set(idx + 1);
     }
   }
 
-  goBack(): void {
-    this.router.navigate(["/candidates"]);
-  }
-
-  getStatusColor(status: string): string {
-    switch (status) {
-      case "Approved":
-        return "primary";
-      case "Rejected":
-        return "warn";
-      case "Under Review":
-        return "accent";
-      default:
-        return "";
+  goToPreviousCandidate(): void {
+    const idx = this.currentIndex();
+    if (idx > 0) {
+      this.currentIndex.set(idx - 1);
     }
   }
 
-  getStatusIcon(status: string): string {
-    switch (status) {
-      case "Approved":
-        return "check_circle";
-      case "Rejected":
-        return "cancel";
-      case "Under Review":
-        return "schedule";
-      case "Pending":
-        return "hourglass_empty";
-      default:
-        return "help";
-    }
-  }
-
-  updateCandidateStatus(newStatus: Candidate["status"]): void {
-    const candidate = this.candidateSignal();
-    if (candidate) {
-      this.dashboardService.updateCandidateStatus(candidate.id, newStatus);
-      this.candidateSignal.update((c) =>
-        c ? { ...c, status: newStatus } : null
-      );
-    }
-  }
 }

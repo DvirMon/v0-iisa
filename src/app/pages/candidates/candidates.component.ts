@@ -29,8 +29,8 @@ import { CandidateDetailDialog } from "../candidate-detail/candidate-detail-page
     MatChipsModule,
     MatTableModule,
     MatTooltipModule,
-    MatFormFieldModule
-],
+    MatFormFieldModule,
+  ],
   templateUrl: "./candidates.component.html",
   styleUrls: ["./candidates.component.scss"],
 })
@@ -107,35 +107,9 @@ export class CandidatesComponent {
   }
 
   viewCandidateDetail(candidate: Candidate): void {
-    this.dialog.open(CandidateDetailDialog)
-  }
-
-  getStatusColor(status: string): string {
-    switch (status) {
-      case "Approved":
-        return "primary";
-      case "Rejected":
-        return "warn";
-      case "Under Review":
-        return "accent";
-      default:
-        return "";
-    }
-  }
-
-  getStatusIcon(status: string): string {
-    switch (status) {
-      case "Approved":
-        return "check_circle";
-      case "Rejected":
-        return "cancel";
-      case "Under Review":
-        return "schedule";
-      case "Pending":
-        return "hourglass_empty";
-      default:
-        return "help";
-    }
+    this.dialog.open(CandidateDetailDialog, {
+      data: { id: candidate.id },
+    });
   }
 
   getDaysAgo(dateString: string): number {
