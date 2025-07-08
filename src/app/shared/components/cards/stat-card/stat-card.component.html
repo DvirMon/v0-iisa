@@ -1,12 +1,12 @@
-<mat-card [class]="'stat-card ' + data.gradient + '-gradient'">
+<mat-card [class]="'stat-card ' + data().gradient + '-gradient'">
   <mat-card-header>
     <mat-card-title>
-      <mat-icon>{{ data.icon }}</mat-icon>
-      {{ data.title }}
+      <mat-icon>{{ data().icon }}</mat-icon>
+      {{ data().title }}
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div class="stat-number">{{ data.value }}</div>
-    <div class="stat-subtitle">{{ data.subtitle }}</div>
+    <div class="stat-number">{{ data().value }}</div>
+    <div class="stat-subtitle">{{ data().subtitle }}</div>
   </mat-card-content>
 </mat-card>
