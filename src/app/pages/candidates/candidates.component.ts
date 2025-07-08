@@ -13,6 +13,8 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { DashboardService } from "../../services/dashboard.service";
 import { Candidate } from "../../models/candidate.model";
+import { MatDialog } from "@angular/material/dialog";
+import { CandidateDetailDialog } from "../candidate-detail/candidate-detail-page.component";
 
 @Component({
   selector: "app-candidates",
@@ -34,7 +36,7 @@ import { Candidate } from "../../models/candidate.model";
 })
 export class CandidatesComponent {
   dashboardService = inject(DashboardService);
-  private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   // Filter signals
   searchTerm = signal("");
@@ -105,7 +107,7 @@ export class CandidatesComponent {
   }
 
   viewCandidateDetail(candidate: Candidate): void {
-    this.router.navigate(["/candidates", candidate.id]);
+    this.dialog.open(CandidateDetailDialog)
   }
 
   getStatusColor(status: string): string {

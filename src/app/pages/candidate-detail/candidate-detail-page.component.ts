@@ -1,4 +1,10 @@
-import { Component, signal, computed, type OnInit, inject } from "@angular/core";
+import {
+  Component,
+  signal,
+  computed,
+  type OnInit,
+  inject,
+} from "@angular/core";
 
 import { ActivatedRoute, Router } from "@angular/router";
 import { MatCardModule } from "@angular/material/card";
@@ -11,16 +17,11 @@ import { Candidate } from "../../models/candidate.model";
 @Component({
   selector: "app-candidate-detail-page",
   standalone: true,
-  imports: [
-    MatCardModule,
-    MatButtonModule,
-    MatIconModule,
-    MatChipsModule
-],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, MatChipsModule],
   templateUrl: "./candidate-detail-page.component.html",
   styleUrls: ["./candidate-detail-page.component.scss"],
 })
-export class CandidateDetailPageComponent implements OnInit {
+export class CandidateDetailDialog implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private dashboardService = inject(DashboardService);
