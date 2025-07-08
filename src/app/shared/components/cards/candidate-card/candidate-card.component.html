@@ -1,0 +1,25 @@
+<mat-card class="candidate-card" (click)="onCardClick()">
+  <mat-card-content>
+    <div class="candidate-info">
+      <img
+        [ngSrc]="candidate().image"
+        [alt]="candidate().name"
+        width="48"
+        height="48"
+        class="candidate-avatar" />
+      <div class="candidate-details">
+        <h3 class="candidate-name">{{ candidate().name }}</h3>
+        <p class="candidate-location">
+          <mat-icon class="location-icon">place</mat-icon>
+          {{ candidate().city }} • Age {{ candidate().age }}
+        </p>
+        <p class="candidate-summary">{{ candidate().summary }}</p>
+        <div class="candidate-footer">
+          <span class="application-date">{{
+            candidate().applicationDate
+          }}</span>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
