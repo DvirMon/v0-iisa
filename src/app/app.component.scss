@@ -1,15 +1,4 @@
-:host {
-  display: block;
-  min-height: 100vh;
-  background-color: #fafafa;
-}
-
 .app-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
   .header-content {
     display: flex;
     justify-content: space-between;
@@ -36,149 +25,13 @@
         margin: 0;
         font-size: 24px;
         font-weight: 600;
-        cursor: pointer;
         text-decoration: none;
         color: inherit;
-
-        &:hover {
-          opacity: 0.8;
-        }
       }
 
       .subtitle {
         font-size: 14px;
         opacity: 0.8;
-      }
-    }
-  }
-
-  .header-right {
-    mat-chip-set {
-      mat-chip {
-        font-weight: 500;
-      }
-    }
-  }
-}
-
-.main-content {
-  flex: 1;
-  min-height: calc(100vh - 64px);
-}
-
-.main-tabs {
-  height: 100%;
-
-  .mat-mdc-tab-group {
-    height: 100%;
-  }
-
-  .mat-mdc-tab-header {
-    background: white;
-    border-bottom: 1px solid #e0e0e0;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-
-    .mat-mdc-tab-labels {
-      justify-content: center;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    .mat-mdc-tab-label {
-      min-width: 120px;
-      padding: 12px 24px;
-      opacity: 0.7;
-      transition: all 0.2s ease;
-
-      &.mdc-tab--active {
-        opacity: 1;
-        color: #3f51b5;
-        font-weight: 500;
-      }
-
-      &:hover {
-        opacity: 1;
-        background-color: rgba(63, 81, 181, 0.05);
-      }
-
-      .mat-mdc-tab-label-content {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-
-        mat-icon {
-          font-size: 20px;
-          width: 20px;
-          height: 20px;
-        }
-
-        span {
-          font-size: 14px;
-          font-weight: inherit;
-        }
-      }
-    }
-
-    .mat-mdc-tab-header-pagination {
-      display: none !important;
-    }
-  }
-
-  .mat-mdc-tab-body-wrapper {
-    height: calc(100vh - 128px);
-    overflow-y: auto;
-  }
-
-  .mat-mdc-tab-body {
-    height: 100%;
-  }
-
-  .mat-mdc-tab-body-content {
-    height: 100%;
-    overflow: visible;
-  }
-}
-
-.tab-content {
-  height: 100%;
-  min-height: calc(100vh - 128px);
-  padding: 0;
-}
-
-@media (max-width: 768px) {
-  .app-header {
-    .header-content {
-      padding: 0 16px;
-    }
-  }
-
-  .main-tabs {
-    .mat-mdc-tab-header {
-      .mat-mdc-tab-labels {
-        padding: 0 16px;
-      }
-
-      .mat-mdc-tab-label {
-        min-width: 80px;
-        padding: 8px 12px;
-
-        .mat-mdc-tab-label-content {
-          span {
-            display: none;
-          }
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .main-tabs {
-    .mat-mdc-tab-header {
-      .mat-mdc-tab-label {
-        min-width: 60px;
-        padding: 8px;
       }
     }
   }
